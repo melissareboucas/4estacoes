@@ -11,7 +11,7 @@ export default class CreditsScene extends Phaser.Scene {
   
     public create() {
 
-
+      console.log("credits scene")
         
     }
 
