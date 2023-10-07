@@ -1,49 +1,99 @@
-# Phaser 3 Webpack 5 Boilerplate
+# `<4Estações>`
 
-Get up and running with Phaser 3 using TypeScript or JavaScript ES6.
+* Link do jogo: [https://4estacoes.vercel.app/](https://4estacoes.vercel.app/)
 
-This Webpack setup takes care of your code bundling and local development server.
+## Motivação
 
-Included are some handy demonstration files:
+A motivação desse projeto é desenvolver um jogo para a disciplina de Estágio Supervisionado 1 da Uni7.
 
-- `Inputs` class for handling gamepad and keyboard inputs
-- `Player` class demonstrating character movement and state management
-- A basic tilemap created using [Tiled](https://www.mapeditor.org/)
+## Objetivo
 
-[View the demo](https://sebsowter.github.io/phaser-webpack/)
+O objetivo do jogo é conseguir aumentar seu número de score, que é obtido quando se aperta o comando correto no tempo correto (que será ditado pelo ritmo da música).
 
-![Mario](https://user-images.githubusercontent.com/7384630/55728490-1205fb00-5a0c-11e9-9fca-67641df3549b.jpg)
+## Valor Agregado
 
-## Installation
+Aprender na prática a realização de todo um ciclo de um projeto. Desde sua concepção, desenvolvimento, testes e entrega.
 
-Ensure you have [Node.js](https://nodejs.org) installed.
+## Fases
 
-Clone this repository and `cd` to project directory.
+Serão 4 fases que aumentarão o nível de dificuldade pela quantidade de comandos a serem executados e na velocidade que eles aparecem. O jogador pode escolher qual fase jogar sem precisar ter passado pelas anteriores.
+
+| Fases | Descrição |
+| ----- | ----------- |
+| 1     | A primeira fase do jogo se passará em um ambiente de primavera, com a música [TBD], e terá a velocidade de descida dos comandos igual a 1. |
+| 2     | A segunda fase do jogo se passará em um ambiente de verão, com a música [TBD], e terá a velocidade de descida dos comandos igual a 2. |
+| 3     | A terceira fase do jogo se passará em um ambiente de outono, com a música [TBD], e terá a velocidade de descida dos comandos igual a 3. |
+| 4     | A quarta fase do jogo se passará em um ambiente de inverno, com a música [TBD], e terá a velocidade de descida dos comandos igual a 4. |
+
+## Esquema de Pontuação
+
+Em cada fase o jogador receberá um score à medida que acertar uma maior quantidade de comandos com a melhor precisão. No entanto, se errar uma quantidade de comandos considerável, será eliminado da fase.
+
+| Precisão | Score |
+| ----- | ----------- |
+| Entre 90% e 100% | 10 pts |
+| Entre 50% e 89%     | 5 pts |
+| Abaixo de 50%      | 0 pts |
+
+Para ser eliminado, o jogador deve errar 50% dos elementos.
+Chega-se ao fim da fase quando acabar a música. O score será contabilizado então.
+
+## Requisitos
+
+### Épicos/Funcionalidades
+
+1. `Menu Inicial`
+   Tutorial;
+   Iniciar;
+   Placar geral;
+   Créditos
+2. `Seleção de Personagem`
+   Personagem 1: Sandy;
+   Personagem 2: Junior;
+3. `Seleção da fase`
+   Fase Primavera;
+   Fase Verão;
+   Fase Outono;
+   Fase Inverno;
+4. `Placar geral`
+   TOP 10 jogagores com maior score: Nome do jogador (3 letras - Fase jogada);
+5. `Créditos`
+   Créditos;
+6. `Fases`
+   Cenário de cada fase;
+   Elementos de comando;
+   Músicas [TBD];
+   Personagem tocando;
+
+### Personas
+
+1. **`<Jogador#1>`** - `<Irá selecionar o personagem Sandy e jogar o jogo.>`.
+2. **`<Jogador#2>`** - `<Irá selecionar o personagem Junior e jogar o jogo.>`.
+
+## Protótipos de Tela
+
+![Diagrama](Diagrama.drawio.png)
+
+## Instalação
+
+Valide se tem [Node.js](https://nodejs.org) instalado.
+
+Clone esse repositório e entre na pasta
 
 ```
 npm i
 ```
 
-## Tasks
-
-### Run the development server
+### Rode o development server
 
 ```
 npm start
 ```
 
-Preview locally at http://localhost:8080/.
+Para visualizar localmente: http://localhost:8080/.
 
-### Create a production build
+### Crie uma production build
 
 ```
 npm run build
 ```
-
-This bundles your files to the distribution (`/dist`) folder. The webpack config is set up to output Phaser and your game code into separate .js files.
-
-_If you are publishing your game to [itch.io](https://itch.io) simply zip up the files in the `/dist` folder and upload the zip file._
-
-## Community
-
-This repository is actively maintained. Every so often I upgrade the packages and add features. I like boilerplates to be light so I have kept it minimal. But if you think this package would benefit from additional features then feel free to reach out or add an issue.
