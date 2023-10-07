@@ -89,7 +89,7 @@ export default class Level1Scene extends Phaser.Scene {
         
         this._springIconGroup = new Icons(this, this._score, this.A)
         this._springIconGroup.create(200, -30, 'springIcon').setScale(0.15);
-        this._springIconGroup.handleIconFalling(5000, 200, -30, 'springIcon', 43);
+        this._springIconGroup.handleIconFalling(5000, 200, -30, 'springIcon', 45);
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
     
@@ -141,7 +141,7 @@ export default class Level1Scene extends Phaser.Scene {
             this._player.setState("turn")
         }
 
-        if (this._score.getGameOverScore() >= 1650) {
+        if (this._score.getGameOverScore() >= 34) {
             this.musicLevel1.stop();
             this.scene.start('GameOverScene');
         }
