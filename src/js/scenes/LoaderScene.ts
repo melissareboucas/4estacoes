@@ -9,6 +9,6 @@ export default class LoaderScene extends Phaser.Scene {
   }
 
   public create() {
-    this.scene.start("MenuScene");
+    this.scene.start("CreditsScene");
   }
 }

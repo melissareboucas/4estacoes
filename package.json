@@ -37,5 +37,8 @@
     "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.2"
+  },
+  "dependencies": {
+    "webfontloader": "^1.6.28"
   }
 }

@@ -1,3 +1,5 @@
+import WebFontFile from "../inputs/WebfontFile";
+
 export default class MenuScene extends Phaser.Scene {
 
 
@@ -22,13 +24,15 @@ export default class MenuScene extends Phaser.Scene {
 
     public preload() {
         this.load.audio('musicMenu', '../../assets/audio/musicMenu.mp3');
-        this.load.image('bg_menu', '../../assets/backgrounds/menuBackground.jpg');
-        this.load.image('startButton', '../../assets/images/startButton.png');
-        this.load.image('levelButton', '../../assets/images/levelButton.png');
-        this.load.image('characterButton', '../../assets/images/characterButton.png');
-        this.load.image('scoreCardButton', '../../assets/images/scoreCardButton.png');
-        this.load.image('creditsButton', '../../assets/images/creditsButton.png');
+        this.load.image('bg_menu', '../../assets/backgrounds/menuBackground.png');
+        this.load.image('tutorialButton', '../../assets/images/button.png');
+        this.load.image('startButton', '../../assets/images/button.png');
+        this.load.image('scoreButton', '../../assets/images/button.png');
+        this.load.image('creditsButton', '../../assets/images/button.png');
         this.load.image('logo', '../../assets/images/logo.png');
+
+        const fonts = new WebFontFile(this.load, 'Press Start 2P');
+        this.load.addFile(fonts)
     }
   
     public create() {
@@ -36,41 +40,42 @@ export default class MenuScene extends Phaser.Scene {
         this.musicMenu =  this.sound.add('musicMenu', this.config);
         this.musicMenu.play();
 
-        this.add.image(400, 300, 'bg_menu').setScale(0.3);
-        this.add.image(400,250, 'logo').setScale(0.3)
+        this.add.image(400, 300, 'bg_menu');
+        this.add.image(400,220, 'logo')
 
-        var tutorialButton = this.add.image(400, 375, 'levelButton').setScale(0.9);
-        this.add.text(400, 375, `Tutorial`, { fontSize: '32px', color: '#fff' }).setOrigin(0.5);
+        var tutorialButton = this.add.image(400, 320, 'tutorialButton');
+        this.add.text(400, 320, `TUTORIAL`, { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         tutorialButton.setInteractive();
         tutorialButton.on('pointerdown', function() {
             this.musicMenu.stop();
             this.scene.start('TutorialScene')
         }, this);
 
-        var startButton = this.add.image(400, 420, 'startButton').setScale(0.9);
-        this.add.text(400, 420, `Iniciar`, { fontSize: '32px', color: '#fff' }).setOrigin(0.5);
+        var startButton = this.add.image(400, 385, 'startButton');
+        this.add.text(400, 385, `INICIAR`, { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         startButton.setInteractive();
         startButton.on('pointerdown', function() {
             this.musicMenu.stop();
             this.scene.start('SelectCharacterScene')
         }, this);
-    
-        var scoreBoardButton = this.add.image(400, 465, 'scoreCardButton').setScale(0.9);
-        this.add.text(400, 465, `Placar Geral`, { fontSize: '24px', color: '#fff' }).setOrigin(0.5);
-        scoreBoardButton.setInteractive();
-        scoreBoardButton.on('pointerdown', function() {
+
+        var scoreButton = this.add.image(400, 450, 'scoreButton');
+        this.add.text(400, 450, `PLACAR`, { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' }).setOrigin(0.5);
+        scoreButton.setInteractive();
+        scoreButton.on('pointerdown', function() {
             this.musicMenu.stop();
             this.scene.start('ScoreBoardScene')
         }, this);
-
-        var creditsButton = this.add.image(400, 510, 'creditsButton').setScale(0.9);
-        this.add.text(400, 510, `Créditos`, { fontSize: '22px', color: '#fff' }).setOrigin(0.5);
+    
+        var creditsButton = this.add.image(400, 515, 'creditsButton');
+        this.add.text(400, 515, `CREDITOS`, { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         creditsButton.setInteractive();
         creditsButton.on('pointerdown', function() {
             this.musicMenu.stop();
             this.scene.start('CreditsScene')
         }, this);
-
+        
+        this.add.text(580, 570, `Developed by Melissa`, { fontFamily: '"Press Start 2P"' ,fontSize: '10px', color: '#000000' });
 
     }
 

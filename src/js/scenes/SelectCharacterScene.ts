@@ -1,6 +1,8 @@
+import WebFontFile from "../inputs/WebfontFile";
+
 export default class SelectCharacterScene extends Phaser.Scene {
 
-    private menuMusic!: Phaser.Sound.BaseSound 
+    private menuMusic!: Phaser.Sound.BaseSound
     /**
     * A config object used to store default sound settings' values.
     * Default values will be set by properties' setters.
@@ -14,106 +16,158 @@ export default class SelectCharacterScene extends Phaser.Scene {
         loop: false,
     };
 
+    right: Phaser.Input.Keyboard.Key;
+    left: Phaser.Input.Keyboard.Key;
+    enter: Phaser.Input.Keyboard.Key;
+
     private selectedPlayerName: string
 
     private block!: Phaser.GameObjects.Image
     private blockPosition: number
 
-    down: Phaser.Input.Keyboard.Key;
-    up: Phaser.Input.Keyboard.Key;
-    enter: Phaser.Input.Keyboard.Key;
+    private sandy!: Phaser.GameObjects.Image
+    private junior!: Phaser.GameObjects.Image
 
-    private textBallonUp!: Phaser.GameObjects.Image
-    private textBallonDown!: Phaser.GameObjects.Image
+    private whiteBox!: Phaser.GameObjects.Image
+    private xVector!: Phaser.GameObjects.Image
+    private bottleText!: Phaser.GameObjects.Text
 
     private sandyDescription!: Phaser.GameObjects.Text
     private juniorDescription!: Phaser.GameObjects.Text
 
     constructor() {
-        super({ key: "SelectCharacterScene"});
+        super({ key: "SelectCharacterScene" });
         this.blockPosition = 0;
 
-      }
+    }
 
     public preload() {
         this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-        this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.jpg');
-        this.load.spritesheet('junior', '../../assets/images/junior.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('sandy', '../../assets/images/sandy.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
+        this.load.image('sandySolo', '../../assets/images/sandySolo.png')
+        this.load.image('juniorSolo', '../../assets/images/juniorSolo.png')
         this.load.image('block', '../../assets/images/block.png')
-        this.load.image('textBallonUp', '../../assets/images/textBallonUp.png')
-        this.load.image('textBallonDown', '../../assets/images/textBallonDown.png')
-        this.load.image('orangeBox', "../../assets/images/orangeBox.jpg")
-        this.load.image('backButton', '../../assets/images/red_sliderLeft.png');
+        this.load.image('back', '../../assets/images/back.png')
+        this.load.image('titleCharacter', '../../assets/images/PERSONAGEM.png')
+        this.load.image('whiteBox', '../../assets/images/whiteBox.png')
+        this.load.image('xVector', '../../assets/images/xVector.png')
 
-        this.load.bitmapFont('arcade', '../../assets/fonts/arcade.png', '../../assets/fonts/arcade.xml');
+        //font
+        const fonts = new WebFontFile(this.load, 'Press Start 2P');
+        this.load.addFile(fonts)
+
 
         //keys
-        this.down = this.input.keyboard.addKey('DOWN')
-        this.up = this.input.keyboard.addKey('UP')
+        this.right = this.input.keyboard.addKey('RIGHT')
+        this.left = this.input.keyboard.addKey('LEFT')
         this.enter = this.input.keyboard.addKey('ENTER')
     }
-  
+
     public create() {
         this.menuMusic = this.sound.add('menuMusic', this.config);
         this.menuMusic.play();
 
-        this.add.image(400, 300, 'bgMenu').setScale(0.3);
+        this.add.image(400, 300, 'bgMenu');
+
         
-        this.add.image(250, 250, 'sandy').setScale(2)
-        this.add.image(250, 450, 'junior').setScale(2)
-        this.block = this.add.image(250, 250, 'block').setScale(3)
+        this.add.image(172, 79, 'titleCharacter').setOrigin(0)
 
-        this.textBallonUp = this.add.image(475, 300, 'textBallonUp').setVisible(true)
-        this.textBallonDown = this.add.image(475, 330, 'textBallonDown').setVisible(false)
+        this.sandy = this.add.image(180, 340, 'sandySolo').setVisible(true)
+        this.junior = this.add.image(620, 340, 'juniorSolo').setVisible(true)
 
-        const boxWidth = 195; 
+
+        this.whiteBox = this.add.image(620, 340, 'whiteBox').setVisible(false)
+        this.xVector = this.add.image(590, 450, 'xVector').setVisible(false)
+        this.bottleText = this.add.text(610, 445, "SAIR", { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' }).setVisible(false);
+
+        const boxWidth = 240; 
     
         const textStyle = {
-            color: '#000', // black text color
-            wordWrap: { width: boxWidth - 20, useAdvancedWrap: true }
+            color: '#000', 
+            wordWrap: { width: boxWidth - 20, useAdvancedWrap: true },
+            align: 'center',
+            fontFamily: '"Press Start 2P"' ,
+            fontSize: '12px'
         };
     
         const textSandy = "Olá! Sou a Sandy! Sou uma cantora talentosa e estou pronta para encantar com minha voz incrível e habilidades musicais. Estou aqui para ajudar a equipe com minhas músicas cativantes, com muita motivação!";
-        this.sandyDescription = this.add.text(410, 200, textSandy, textStyle);
-        this.sandyDescription.setVisible(true);
-
+        this.sandyDescription = this.add.text(520, 250, textSandy, textStyle).setVisible(false);
+        
         const textJunior = "Olá! Sou o Junior! Sou um baterista apaixonado pela percussão e trago meu amor pela bateria e ritmos contagiantes para fazer parte da aventura. Estou aqui para estabelecer um ritmo constante para a equipe!"
-        this.juniorDescription = this.add.text(400, 180, textJunior, textStyle);
-        this.juniorDescription.setVisible(false);
+        this.juniorDescription = this.add.text(80, 250, textJunior, textStyle).setVisible(false);
+        
+        this.sandy.setInteractive();
+        this.sandy.on('pointerdown', function() {
+            this.block.setX(180);
+            this.blockPosition = 0;
+            this.junior.setVisible(false);
+            this.whiteBox.setVisible(true);
+            this.whiteBox.setX(620)
+            this.xVector.setVisible(true);
+            this.xVector.setX(590)
+            this.bottleText.setVisible(true);
+            this.bottleText.setX(610)
+            this.sandyDescription.setVisible(true)
+            this.juniorDescription.setVisible(false)
+        }, this);
 
-        this.add.image(-10, 40, 'orangeBox').setOrigin(0).setScale(0.25, 0.15)
-        this.add.bitmapText(30, 50, 'arcade', 'Selecione seu personagem', 30).setTint(0x000000).setOrigin(0)
+        this.junior.setInteractive();
+        this.junior.on('pointerdown', function() {
+            this.block.setX(620);
+            this.blockPosition = 1;
+            this.sandy.setVisible(false);
+            this.whiteBox.setVisible(true);
+            this.whiteBox.setX(180)
+            this.xVector.setVisible(true);
+            this.xVector.setX(150)
+            this.bottleText.setVisible(true);
+            this.bottleText.setX(170)
+            this.sandyDescription.setVisible(false)
+            this.juniorDescription.setVisible(true)
+        }, this);
 
-        var backButton = this.add.image(20, 130, 'backButton').setScale(0.9);
+        this.xVector.setInteractive();
+        this.xVector.on('pointerdown', function() {
+            this.sandy.setVisible(true);
+            this.junior.setVisible(true);
+            this.whiteBox.setVisible(false);
+            this.xVector.setVisible(false);
+            this.bottleText.setVisible(false);
+            this.sandyDescription.setVisible(false);
+            this.juniorDescription.setVisible(false);
+        }, this);
+        
+        
+        
+        this.add.text(240, 520, "Clique para ver a descrição", { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' });
+        this.add.text(220, 540, "Pressione Enter para selecionar", { fontFamily: '"Press Start 2P"' ,fontSize: '12px', color: '#000000' });
+
+        this.block = this.add.image(180, 340, 'block')
+
+         
+        var backButton = this.add.image(50, 50, 'back').setScale(0.05);
         backButton.setInteractive();
         backButton.on('pointerdown', function() {
             this.menuMusic.stop();
             this.scene.start('MenuScene')
         }, this);
        
-        
+
     }
 
-    public update(){
-        if (this.down.isDown && this.blockPosition == 0)
+    public update() {
+        
+        if (this.right.isDown && this.blockPosition == 0)
         {
-            this.block.setY(450);
+            this.block.setX(620);
             this.blockPosition = 1;
-            this.textBallonUp.setVisible(false);
-            this.textBallonDown.setVisible(true);
-            this.sandyDescription.setVisible(false);
-            this.juniorDescription.setVisible(true);
         }
-        else if (this.up.isDown && this.blockPosition == 1) {
-            this.block.setY(250);
+        else if (this.left.isDown && this.blockPosition == 1) {
+            this.block.setX(180);
             this.blockPosition = 0;
-            this.textBallonUp.setVisible(true);
-            this.textBallonDown.setVisible(false);
-            this.sandyDescription.setVisible(true);
-            this.juniorDescription.setVisible(false);
+
         }
-//
+
         if (this.enter.isDown) {
             if (this.blockPosition == 0) {
                 this.selectedPlayerName = 'sandy'
@@ -123,7 +177,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
             this.menuMusic.stop();
             this.scene.start("SelectLevelScene", {playerName: this.selectedPlayerName});
         }
+        
     }
 
-  }
-  
+}
