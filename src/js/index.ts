@@ -14,6 +14,7 @@ import YourScoreScene from "./scenes/YourScoreScene";
 import GameOverScene from "./scenes/GameOverScene";
 
 
+
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 800,

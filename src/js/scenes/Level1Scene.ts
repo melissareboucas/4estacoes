@@ -147,7 +147,7 @@ export default class Level1Scene extends Phaser.Scene {
 
         if (this._score.getGameOverScore() >= 34) {
             this.musicLevel1.stop();
-            this.scene.start('GameOverScene');
+            this.scene.start('GameOverScene', {score: this._score});
         }
         
     }

@@ -84,7 +84,8 @@ export default class TutorialScene extends Phaser.Scene {
 
     Controles:
     
-    Setas do Teclado: Movimentam o personagem para esquerda e direita.
+    Setas do Teclado: Movimentam a personagem para esquerda e direita.
+    Barra de espaço: Aceleram o movimento da personagem.
     Tecla A: Aperte para acertar o ícone da Primavera.
     Tecla S: Aperte para acertar o ícone do Verão.
     Tecla D: Aperte para acertar o ícone do Outono.
@@ -92,7 +93,7 @@ export default class TutorialScene extends Phaser.Scene {
 
     const textTutorialpart2 = `Instruções: No Menu, clique em "Iniciar". Na tela de personagem escolha com quem deseja jogar (Sandy ou Junior) e, em seguida, selecione a estação do ano.
 
-   À medida que você se movimenta pelo cenário, diferentes ícones das estações aparecerão. Quando os ícones estiverem perto do seu personagem, pressione a tecla correspondente.
+   À medida que você se movimenta pelo cenário, diferentes ícones das estações aparecerão. Quando os ícones estiverem perto da sua personagem, pressione a tecla correspondente.
     
     Você receberá pontos com base na precisão e no ritmo de suas notas musicais. 
     - Maior que 90%: 10 pts

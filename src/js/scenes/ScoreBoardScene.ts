@@ -1,22 +1,6 @@
-import { LeaderBoard } from "phaser3-rex-plugins/plugins/firebase-components";
+
 import WebFontFile from "../inputs/WebfontFile";
 
-// declare firebase to resolve TypeScript error
-/*
-declare const firebase: any
-
-var firebaseConfig = {
-  apiKey: "AIzaSyDTYiyAoCDSP3kjmC-CoucQTbWc4ZAbZM0",
-  authDomain: "estacoes-c9bed.firebaseapp.com",
-  projectId: "estacoes-c9bed",
-  storageBucket: "estacoes-c9bed.appspot.com",
-  messagingSenderId: "951179728056",
-  appId: "1:951179728056:web:b1555e56b38d577fbbd04d"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
-*/
 
 export default class ScoreBoardScene extends Phaser.Scene {
 
@@ -80,24 +64,29 @@ export default class ScoreBoardScene extends Phaser.Scene {
     this.add.text(560, 280, 'FASE', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' })
 
     const scores = await this.leaderboard.loadFirstPage()
-    scores.sort((a, b) => b.score - a.score);
+    if (scores.length > 0) {
+      scores.sort((a, b) => b.score - a.score);
 
-    let y = 350
-
-    //top 5 score
-    for (let i = 0; i < 5; ++i) {
-
-      if (i < scores.length) {
-        const scoreItem = scores[i]
-
-        this.add.text(100, y, (i + 1) + '. ' + scoreItem.userName, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
-        this.add.text(330, y, scoreItem.score.toString(), { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
-        this.add.text(560, y, scoreItem.level, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
+      let y = 350
+  
+      //top 5 score
+      for (let i = 0; i < 5; ++i) {
+  
+        if (i < scores.length) {
+          const scoreItem = scores[i]
+  
+          this.add.text(100, y, (i + 1) + '. ' + scoreItem.userName, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
+          this.add.text(330, y, scoreItem.score.toString(), { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
+          this.add.text(560, y, scoreItem.level, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
+        }
+  
+        y = y + 50
+  
       }
-
-      y = y + 50
-
+    } else {
+      this.add.text(200, 400, "Seja o primeiro a jogar!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
     }
+
 
 
 
