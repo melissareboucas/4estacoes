@@ -115,7 +115,7 @@ export default class Level1Scene extends Phaser.Scene {
             delay: this.musicLevel1.duration*1000,
             loop: false,
             callback: () => {
-                this.scene.start("YourScoreScene",  {score: this._score });
+                this.scene.start("YourScoreScene",  {score: this._score});
             }
         })
 

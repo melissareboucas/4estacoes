@@ -21,6 +21,9 @@ export default class Score extends Phaser.GameObjects.Text {
         this.setText("Score: " + this.currentValue.toString())
     }
 
+    public getScore() {
+        return this.currentValue;
+    }
     public updateGameOverScore(value: integer) {
         this.countGameOverSore = this.countGameOverSore + value;
     }

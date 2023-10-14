@@ -39,6 +39,8 @@
     "webpack-dev-server": "^4.13.2"
   },
   "dependencies": {
+    "phaser3-rex-plugins": "^1.60.6",
+    "uuid": "^9.0.1",
     "webfontloader": "^1.6.28"
   }
 }
