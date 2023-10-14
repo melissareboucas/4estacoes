@@ -6,6 +6,8 @@ import Icons from "../gameObjects/Icons";
 
 export default class Level1Scene extends Phaser.Scene {
 
+    private leaderboard: any
+
     private musicLevel1!: Phaser.Sound.BaseSound 
     /**
     * A config object used to store default sound settings' values.
@@ -50,6 +52,7 @@ export default class Level1Scene extends Phaser.Scene {
 
     init(data) {
         this.playerName = data.playerName;
+        this.leaderboard = data.leaderboard;
     }
 
     public preload() {
@@ -115,7 +118,8 @@ export default class Level1Scene extends Phaser.Scene {
             delay: this.musicLevel1.duration*1000,
             loop: false,
             callback: () => {
-                this.scene.start("YourScoreScene",  {score: this._score});
+                this.musicLevel1.stop();
+                this.scene.start("YourScoreScene",  {score: this._score, level: "PRIMAVERA", leaderboard: this.leaderboard});
             }
         })
 

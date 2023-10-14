@@ -11,7 +11,7 @@ export default class GameOverScene extends Phaser.Scene {
   
     public create() {
 
-      console.log("game over")
+      this.scene.start('MenuScene')
         
     }
 

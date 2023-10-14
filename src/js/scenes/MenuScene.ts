@@ -1,7 +1,9 @@
 import WebFontFile from "../inputs/WebfontFile";
+import { LeaderBoard } from 'phaser3-rex-plugins/plugins/firebase-components'
 
 export default class MenuScene extends Phaser.Scene {
 
+    private leaderboard: any
 
     private musicMenu!: Phaser.Sound.BaseSound 
     
@@ -37,6 +39,10 @@ export default class MenuScene extends Phaser.Scene {
   
     public create() {
 
+        this.leaderboard = new LeaderBoard({
+            root: 'leaderboard'
+          })
+
         this.musicMenu =  this.sound.add('musicMenu', this.config);
         this.musicMenu.play();
 
@@ -56,7 +62,7 @@ export default class MenuScene extends Phaser.Scene {
         startButton.setInteractive();
         startButton.on('pointerdown', function() {
             this.musicMenu.stop();
-            this.scene.start('SelectCharacterScene')
+            this.scene.start('SelectCharacterScene', {leaderboard: this.leaderboard})
         }, this);
 
         var scoreButton = this.add.image(400, 450, 'scoreButton');
@@ -64,7 +70,7 @@ export default class MenuScene extends Phaser.Scene {
         scoreButton.setInteractive();
         scoreButton.on('pointerdown', function() {
             this.musicMenu.stop();
-            this.scene.start('ScoreBoardScene')
+            this.scene.start('ScoreBoardScene', {leaderboard: this.leaderboard})
         }, this);
     
         var creditsButton = this.add.image(400, 515, 'creditsButton');

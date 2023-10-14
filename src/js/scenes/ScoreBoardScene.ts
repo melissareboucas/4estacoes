@@ -1,11 +1,8 @@
+import { LeaderBoard } from "phaser3-rex-plugins/plugins/firebase-components";
 import WebFontFile from "../inputs/WebfontFile";
 
-import { LeaderBoard } from 'phaser3-rex-plugins/plugins/firebase-components'
-import { v4 as uuidv4 } from 'uuid';
-
-import Score from "../gameObjects/Score";
-
 // declare firebase to resolve TypeScript error
+/*
 declare const firebase: any
 
 var firebaseConfig = {
@@ -19,14 +16,11 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
+*/
 
 export default class ScoreBoardScene extends Phaser.Scene {
 
   private leaderboard: any
-
-  private newScore: number
-  private userName: string
-  private level: string
 
   private menuMusic!: Phaser.Sound.BaseSound
   /**
@@ -47,36 +41,8 @@ export default class ScoreBoardScene extends Phaser.Scene {
 
   }
 
-  init(data: { score: Score, userName: string, level: string }) {
-    const db = firebase.firestore();
-
-    this.newScore = data.score.getScore()
-    this.userName = data.userName
-    this.level = data.level
-
-    this.leaderboard = new LeaderBoard({
-      root: 'leaderboard'
-    })
-
-    const userID = uuidv4(); // This generates a unique UUID as the user ID
-    const newUserData = {
-      score: this.newScore,
-      userId: userID,
-      userName: this.userName,
-      level: this.level,
-    };
-
-    const userDocumentRef = db.collection('leaderboard').doc(userID);
-
-    userDocumentRef.set(newUserData)
-      .then(() => {
-        console.log('New user document created successfully.');
-      })
-      .catch((error) => {
-        console.error('Error creating new user document:', error);
-      });
-
-
+  init(data) {
+    this.leaderboard = data.leaderboard
   }
 
   public preload() {

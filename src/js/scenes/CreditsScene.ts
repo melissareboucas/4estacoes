@@ -49,6 +49,30 @@ export default class CreditsScene extends Phaser.Scene {
       this.scene.start('MenuScene')
     }, this);
 
+
+    const boxWidth = 600;
+
+    const textStyle = {
+      color: '#000',
+      wordWrap: { width: boxWidth - 20, useAdvancedWrap: true },
+      align: 'left',
+      fontFamily: '"Press Start 2P"',
+      fontSize: '12px',
+      lineSpacing: 20
+    };
+
+    const creditsText = `- Desenvolvedora: Melissa Viana
+    - Linguagem Base: TypeScript 
+    - GameEngine: Phaser 3
+    - Imagens: pikisuperstar on Freepik
+    - Audio: Youtube
+    ------------------------------------------------
+    Agradecimentos especiais: Sarah, por me ajudar com os designs ;)
+    `
+
+    this.add.text(150, 200, creditsText, textStyle).setOrigin(0);
+
+
   }
 
   public update() {

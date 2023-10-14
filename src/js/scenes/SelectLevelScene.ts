@@ -2,6 +2,8 @@ import WebFontFile from "../inputs/WebfontFile";
 
 export default class SelectLevelScene extends Phaser.Scene {
 
+  private leaderboard: any
+
   private menuMusic!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
@@ -41,6 +43,7 @@ export default class SelectLevelScene extends Phaser.Scene {
 
   init(data) {
     this.playerName = data.playerName;
+    this.leaderboard = data.leaderboard
   }
 
   public preload() {
@@ -98,25 +101,25 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.level1.setInteractive();
     this.level1.on('pointerdown', function () {
       this.menuMusic.stop();
-      this.scene.start("Level1Scene", { playerName: this.playerName });
+      this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
     this.level2.setInteractive();
     this.level2.on('pointerdown', function () {
       this.menuMusic.stop();
-      this.scene.start("Level2Scene", { playerName: this.playerName });
+      this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
     this.level3.setInteractive();
     this.level3.on('pointerdown', function () {
       this.menuMusic.stop();
-      this.scene.start("Level3Scene", { playerName: this.playerName });
+      this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
     this.level4.setInteractive();
     this.level4.on('pointerdown', function () {
       this.menuMusic.stop();
-      this.scene.start("Level4Scene", { playerName: this.playerName });
+      this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
 
@@ -161,19 +164,19 @@ export default class SelectLevelScene extends Phaser.Scene {
     if (this.enter.isDown) {
       if (this.blockPosition == 1) {
         this.menuMusic.stop();
-        this.scene.start("Level1Scene", { playerName: this.playerName });
+        this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       } 
       else if (this.blockPosition == 2) {
         this.menuMusic.stop();
-        this.scene.start("Level2Scene", { playerName: this.playerName });
+        this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       } 
       else if (this.blockPosition == 3) {
         this.menuMusic.stop();
-        this.scene.start("Level3Scene", { playerName: this.playerName });
+        this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard});
       }
       else if (this.blockPosition == 4) {
         this.menuMusic.stop();
-        this.scene.start("Level4Scene", { playerName: this.playerName });
+        this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       }
     }
 

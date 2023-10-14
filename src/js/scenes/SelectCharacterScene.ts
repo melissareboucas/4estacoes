@@ -2,6 +2,8 @@ import WebFontFile from "../inputs/WebfontFile";
 
 export default class SelectCharacterScene extends Phaser.Scene {
 
+    private leaderboard: any
+
     private menuMusic!: Phaser.Sound.BaseSound
     /**
     * A config object used to store default sound settings' values.
@@ -40,6 +42,10 @@ export default class SelectCharacterScene extends Phaser.Scene {
         this.blockPosition = 0;
 
     }
+
+    init(data) {
+        this.leaderboard = data.leaderboard
+      }
 
     public preload() {
         this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
@@ -175,7 +181,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
                 this.selectedPlayerName = 'junior'
             }
             this.menuMusic.stop();
-            this.scene.start("SelectLevelScene", {playerName: this.selectedPlayerName});
+            this.scene.start("SelectLevelScene", {playerName: this.selectedPlayerName, leaderboard: this.leaderboard});
         }
         
     }
