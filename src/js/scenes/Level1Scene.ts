@@ -90,24 +90,24 @@ export default class Level1Scene extends Phaser.Scene {
 
         this._platform = new Platform(this.physics.world, this);
         
-        this._springIconGroup = new Icons(this, this._score, this.A)
-        this._springIconGroup.create(200, -30, 'springIcon').setScale(0.15);
+        this._springIconGroup = new Icons(this, this._score, this.A, 10)
+        this._springIconGroup.create(200, -30, 'springIcon').setScale(0.15).setGravityY(10);
         this._springIconGroup.handleIconFalling(5000, 200, -30, 'springIcon', 45);
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
     
 
-        this._summerIconGroup = new Icons(this, this._score, this.S)
+        this._summerIconGroup = new Icons(this, this._score, this.S, 10)
         this._summerIconGroup.handleIconFalling(17000, 340, -30, 'summerIcon', 10)
         this._summerIconGroup.handlePlayerOverlap(this._player)
         this._summerIconGroup.handlePlatformOverlap(this._platform)
 
-        this._fallIconGroup = new Icons(this, this._score, this.D)
+        this._fallIconGroup = new Icons(this, this._score, this.D, 10)
         this._fallIconGroup.handleIconFalling(23000, 470, -30, 'fallIcon', 8)
         this._fallIconGroup.handlePlayerOverlap(this._player)
         this._fallIconGroup.handlePlatformOverlap(this._platform)
 
-        this._winterIconGroup = new Icons(this, this._score, this.F)
+        this._winterIconGroup = new Icons(this, this._score, this.F, 10)
         this._winterIconGroup.handleIconFalling(29000, 600, -30, 'winterIcon', 6)
         this._winterIconGroup.handlePlayerOverlap(this._player)
         this._winterIconGroup.handlePlatformOverlap(this._platform)

@@ -20,10 +20,10 @@ Serão 4 fases que aumentarão o nível de dificuldade pela quantidade de comand
 
 | Fases | Descrição |
 | ----- | ----------- |
-| 1     | A primeira fase do jogo se passará em um ambiente de primavera, com a música [TBD], e terá a velocidade de descida dos comandos igual a 1. |
-| 2     | A segunda fase do jogo se passará em um ambiente de verão, com a música [TBD], e terá a velocidade de descida dos comandos igual a 2. |
-| 3     | A terceira fase do jogo se passará em um ambiente de outono, com a música [TBD], e terá a velocidade de descida dos comandos igual a 3. |
-| 4     | A quarta fase do jogo se passará em um ambiente de inverno, com a música [TBD], e terá a velocidade de descida dos comandos igual a 4. |
+| 1     | A primeira fase do jogo se passará em um ambiente de primavera, com a música "As quatro estações", e terá a velocidade de descida dos comandos igual a 1. |
+| 2     | A segunda fase do jogo se passará em um ambiente de verão, com a música "Não dá pra não pensar", e terá a velocidade de descida dos comandos igual a 2. |
+| 3     | A terceira fase do jogo se passará em um ambiente de outono, com a música "Quando você passa", e terá a velocidade de descida dos comandos igual a 3. |
+| 4     | A quarta fase do jogo se passará em um ambiente de inverno, com a música "Vâmo pulá", e terá a velocidade de descida dos comandos igual a 4. |
 
 ## Esquema de Pontuação
 
@@ -62,7 +62,7 @@ Chega-se ao fim da fase quando acabar a música. O score será contabilizado ent
 6. `Fases`
    Cenário de cada fase;
    Elementos de comando;
-   Músicas [TBD];
+   Músicas ["As quatro estações", "Não dá pra não pensar", "Quando você passa", "Vâmo pulá"];
    Personagem tocando;
 
 ### Personas

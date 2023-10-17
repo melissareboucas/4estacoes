@@ -119,6 +119,7 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.level4.setInteractive();
     this.level4.on('pointerdown', function () {
       this.menuMusic.stop();
+      this.scene.stop("SelectLevelScene")
       this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 

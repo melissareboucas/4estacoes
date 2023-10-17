@@ -10,17 +10,20 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
 
     private score: Score
 
+    private gravity: number
 
-    constructor(scene: Phaser.Scene, score: Score, pressedKey: Phaser.Input.Keyboard.Key) {
+
+    constructor(scene: Phaser.Scene, score: Score, pressedKey: Phaser.Input.Keyboard.Key, gravity: number) {
         super(scene.physics.world, scene)
 
         this.score = score;
         this.pressedKey = pressedKey;
+        this.gravity = gravity
     }
 
 
-    public addImage(x: number, y: number, textureKey: string): Phaser.GameObjects.Image {
-        const image = this.scene.add.image(x, y, textureKey).setScale(0.15) as Phaser.GameObjects.Image;
+    public addImage(x: number, y: number, textureKey: string): Phaser.Physics.Arcade.Sprite {
+        const image = this.scene.physics.add.sprite(x, y, textureKey).setScale(0.15) as Phaser.Physics.Arcade.Sprite;
         this.add(image); // Add the image to the group
 
         return image; // Return the created image for further manipulation if needed
@@ -32,7 +35,9 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
         this.scene.time.addEvent({
             delay: timeDelay,
             callback: () => {
-                this.addImage(x, y, textureKey);
+                const image = this.addImage(x, y, textureKey);
+            // Apply gravity to the image
+            image.setGravityY(this.gravity); // 
             },
             repeat: repetitionNumber
         });
