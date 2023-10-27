@@ -34,6 +34,7 @@ export default class Level4Scene extends Phaser.Scene {
     right: Phaser.Input.Keyboard.Key;
     space: Phaser.Input.Keyboard.Key;
     enter: Phaser.Input.Keyboard.Key;
+    esc: Phaser.Input.Keyboard.Key;
 
     private _score: Score
 
@@ -67,6 +68,8 @@ export default class Level4Scene extends Phaser.Scene {
         this.load.image('fallIcon', '../../assets/images/fallIcon.png');
         this.load.image('winterIcon', '../../assets/images/winterIcon.png');
 
+        this.load.image('back', '../../assets/images/back.png')
+
         //keys
         this.A = this.input.keyboard.addKey('A')
         this.S = this.input.keyboard.addKey('S')
@@ -76,6 +79,7 @@ export default class Level4Scene extends Phaser.Scene {
         this.right = this.input.keyboard.addKey('RIGHT')
         this.space = this.input.keyboard.addKey('SPACE')
         this.enter = this.input.keyboard.addKey('ENTER')
+        this.esc = this.input.keyboard.addKey('ESC')
     }
   
     public create() {
@@ -87,8 +91,17 @@ export default class Level4Scene extends Phaser.Scene {
         this._score = new Score(this, 16, 16).setDepth(1);
 
         this._player = new Players(this, 100, 580, this.playerName).setDepth(1);
+        this._player.setTexture(this.playerName)
 
         this._platform = new Platform(this.physics.world, this);
+
+        var backButton = this.add.image(750, 40, 'back').setScale(0.05);
+        backButton.setInteractive();
+        backButton.on('pointerdown', function () {
+            this.musicLevel4.stop();
+            this.scene.restart();
+            this.scene.start('MenuScene')
+        }, this);
         
         this._springIconGroup = new Icons(this, this._score, this.A, 40)
         this._springIconGroup.handleIconFalling(15000, 200, -30, 'springIcon', 16);
@@ -152,6 +165,11 @@ export default class Level4Scene extends Phaser.Scene {
             this.scene.start('GameOverScene', {score: this._score});
         }
         
+        if (this.esc.isDown) {
+            this.musicLevel4.stop();
+            this.scene.restart();
+            this.scene.start('MenuScene')
+        }
     }
 
   }

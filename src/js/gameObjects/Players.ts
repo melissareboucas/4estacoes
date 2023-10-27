@@ -5,14 +5,20 @@ export default class Players extends Phaser.Physics.Arcade.Sprite {
     private playerName: string
     constructor(scene: Phaser.Scene, x: number, y: number, playerName: string) {
         super(scene, x, y, playerName)
+
         this.playerName = playerName;
-        
+
         this.scene.physics.world.enable(this);
+
         this.scene.add
             .existing(this)
             .setCollideWorldBounds(true)
             .setX(this.x)
             .setY(this.y)
+
+        this.scene.anims.remove('left');
+        this.scene.anims.remove('right');
+        this.scene.anims.remove('turn');
 
         this.scene.anims.create({
             key: 'left',
@@ -33,6 +39,8 @@ export default class Players extends Phaser.Physics.Arcade.Sprite {
             frameRate: 10,
             repeat: -1
         });
+
+
 
     }
 
@@ -62,5 +70,7 @@ export default class Players extends Phaser.Physics.Arcade.Sprite {
 
         return super.setState(value);
     }
+
+
 
 }

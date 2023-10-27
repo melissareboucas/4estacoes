@@ -71,6 +71,7 @@ export default class SelectLevelScene extends Phaser.Scene {
   }
 
   public create() {
+    this.blockPosition = 1;
     this.menuMusic = this.sound.add('menuMusic', this.config);
     this.menuMusic.play();
 
@@ -86,6 +87,7 @@ export default class SelectLevelScene extends Phaser.Scene {
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
       this.menuMusic.stop();
+      this.scene.stop("SelectLevelScene")
       this.scene.start('SelectCharacterScene')
     }, this);
 
@@ -101,18 +103,21 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.level1.setInteractive();
     this.level1.on('pointerdown', function () {
       this.menuMusic.stop();
+      this.scene.stop("SelectLevelScene")
       this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
     this.level2.setInteractive();
     this.level2.on('pointerdown', function () {
       this.menuMusic.stop();
+      this.scene.stop("SelectLevelScene")
       this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
     this.level3.setInteractive();
     this.level3.on('pointerdown', function () {
       this.menuMusic.stop();
+      this.scene.stop("SelectLevelScene")
       this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
     }, this);
 
@@ -165,18 +170,22 @@ export default class SelectLevelScene extends Phaser.Scene {
     if (this.enter.isDown) {
       if (this.blockPosition == 1) {
         this.menuMusic.stop();
+        this.scene.stop("SelectLevelScene")
         this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       } 
       else if (this.blockPosition == 2) {
         this.menuMusic.stop();
+        this.scene.stop("SelectLevelScene")
         this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       } 
       else if (this.blockPosition == 3) {
         this.menuMusic.stop();
+        this.scene.stop("SelectLevelScene")
         this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard});
       }
       else if (this.blockPosition == 4) {
         this.menuMusic.stop();
+        this.scene.stop("SelectLevelScene")
         this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
       }
     }

@@ -62,6 +62,7 @@ export default class MenuScene extends Phaser.Scene {
         startButton.setInteractive();
         startButton.on('pointerdown', function() {
             this.musicMenu.stop();
+            this.scene.stop("MenuScene")
             this.scene.start('SelectCharacterScene', {leaderboard: this.leaderboard})
         }, this);
 

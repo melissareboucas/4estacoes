@@ -40,6 +40,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
     constructor() {
         super({ key: "SelectCharacterScene" });
         this.blockPosition = 0;
+        this.selectedPlayerName=null;
 
     }
 
@@ -70,6 +71,9 @@ export default class SelectCharacterScene extends Phaser.Scene {
     }
 
     public create() {
+        this.blockPosition = 0;
+        this.selectedPlayerName=null; 
+
         this.menuMusic = this.sound.add('menuMusic', this.config);
         this.menuMusic.play();
 
@@ -155,6 +159,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
         backButton.setInteractive();
         backButton.on('pointerdown', function() {
             this.menuMusic.stop();
+            this.scene.stop("SelectCharacterScene")
             this.scene.start('MenuScene')
         }, this);
        
@@ -181,6 +186,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
                 this.selectedPlayerName = 'junior'
             }
             this.menuMusic.stop();
+            this.scene.stop("SelectCharacterScene")
             this.scene.start("SelectLevelScene", {playerName: this.selectedPlayerName, leaderboard: this.leaderboard});
         }
         

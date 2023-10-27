@@ -129,6 +129,12 @@ export default class YourScoreScene extends Phaser.Scene {
       this.add.text(190, 540, "Pressione Enter para seguir", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' });
       this.add.text(290, 220, "Sua pontuação:", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' });
       this.add.text(200, 350, "Parabéns pelo resultado!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
+      this.input.keyboard.on('keydown', (event) => { // Use an arrow function
+        if (event.key === 'Enter') {
+          this.menuMusic.stop();
+          this.scene.start("MenuScene");
+        }
+      });
     }
 
 
