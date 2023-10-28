@@ -2,7 +2,6 @@ import Score from "../gameObjects/Score";
 
 import WebFontFile from "../inputs/WebfontFile";
 
-
 import { v4 as uuidv4 } from 'uuid';
 
 declare const firebase: any
@@ -28,9 +27,7 @@ export default class YourScoreScene extends Phaser.Scene {
   private _score: Score
   private level: string
 
-
-
-  private menuMusic!: Phaser.Sound.BaseSound
+  private musicMenu!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -50,23 +47,17 @@ export default class YourScoreScene extends Phaser.Scene {
 
   constructor() {
     super({ key: "YourScoreScene" });
-
-
   }
 
   init(data) {
     this._score = data.score;
     this.level = data.level
     this.leaderboard = data.leaderboard
+    this.musicMenu = data.musicMenu
   }
 
 
   public preload() {
-    this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-    this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
-    this.load.image('titleYourScore', '../../assets/images/SCORE.png')
-    this.load.image('scoreBlock', '../../assets/images/scoreBlock.png');
-
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
@@ -75,13 +66,9 @@ export default class YourScoreScene extends Phaser.Scene {
   }
 
   public async create() {
+    this.musicMenu.play();
 
-    this.menuMusic = this.sound.add('menuMusic', this.config);
-    this.menuMusic.play();
-
-    this.add.image(400, 300, 'bgMenu');
-
-
+    this.add.image(400, 300, 'bg_menu');
 
     const scores = await this.leaderboard.loadFirstPage()
     if (scores.length >= 5) {
@@ -131,14 +118,11 @@ export default class YourScoreScene extends Phaser.Scene {
       this.add.text(200, 350, "Parabéns pelo resultado!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
       this.input.keyboard.on('keydown', (event) => { // Use an arrow function
         if (event.key === 'Enter') {
-          this.menuMusic.stop();
+          this.musicMenu.stop();
           this.scene.start("MenuScene");
         }
       });
     }
-
-
-
 
   }
 
@@ -183,16 +167,17 @@ export default class YourScoreScene extends Phaser.Scene {
         console.error('Error creating new user document:', error);
       });
 
-    this.menuMusic.stop();
-    this.scene.start("ScoreBoardScene", { leaderboard: this.leaderboard });
+    this.musicMenu.stop();
+    this.scene.start("ScoreBoardScene", {
+      leaderboard: this.leaderboard,
+      musicMenu: this.musicMenu
+    });
   }
 
   displayNewRecordTexts() {
     this.add.image(275, 60, 'titleYourScore').setOrigin(0)
 
     this.add.image(70, 200, 'scoreBlock').setOrigin(0)
-
-
 
     this.add.text(375, 260, this._score.getScore().toString(), { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' });
 

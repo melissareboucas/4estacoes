@@ -6,7 +6,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   private _score: Score
 
-  private menuMusic!: Phaser.Sound.BaseSound
+  private musicMenu!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -30,15 +30,11 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   init(data) {
+    this.musicMenu = data.musicMenu;
     this._score = data.score;
   }
 
   public preload() {
-    this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-    this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
-    this.load.image('titleGameOver', '../../assets/images/GAME OVER.png')
-    this.load.image('scoreBlock', '../../assets/images/scoreBlock.png');
-
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
@@ -48,18 +44,13 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   public create() {
+    this.musicMenu.play();
 
-    this.menuMusic = this.sound.add('menuMusic', this.config);
-    this.menuMusic.play();
-
-    this.add.image(400, 300, 'bgMenu');
-
+    this.add.image(400, 300, 'bg_menu');
 
     this.add.image(200, 60, 'titleGameOver').setOrigin(0)
 
     this.add.image(70, 200, 'scoreBlock').setOrigin(0)
-
-
 
     this.add.text(375, 260, this._score.getScore().toString(), { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' });
 
@@ -73,7 +64,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   public update() {
     if (this.enter.isDown) {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.start("MenuScene");
     }
 

@@ -2,7 +2,7 @@ import WebFontFile from "../inputs/WebfontFile";
 
 export default class TutorialScene extends Phaser.Scene {
 
-  private menuMusic!: Phaser.Sound.BaseSound
+  private musicMenu!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -16,50 +16,36 @@ export default class TutorialScene extends Phaser.Scene {
     loop: false,
   };
 
-
-
   private downTriangle!: Phaser.GameObjects.Image
   private upTriangle!: Phaser.GameObjects.Image
 
   private description!: Phaser.GameObjects.Text
 
-
-
   constructor() {
     super({ key: "TutorialScene" });
+  }
 
-
+  init(data){
+    this.musicMenu= data.musicMenu
   }
 
   public preload() {
-    this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-    this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
-    this.load.image('back', '../../assets/images/back.png')
-    this.load.image('titleTutorial', '../../assets/images/TUTORIAL.png')
-    this.load.image('largeWhiteBox', '../../assets/images/largeWhiteBox.png')
-    this.load.image('downTriangle', '../../assets/images/downTriangle.png')
-    this.load.image('upTriangle', '../../assets/images/upTriangle.png')
-
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
-
-
   }
 
   public create() {
-    this.menuMusic = this.sound.add('menuMusic', this.config);
-    this.menuMusic.play();
+    this.musicMenu.play();
 
-    this.add.image(400, 300, 'bgMenu');
-
+    this.add.image(400, 300, 'bg_menu');
 
     this.add.image(220, 80, 'titleTutorial').setOrigin(0)
 
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.start('MenuScene')
     }, this);
 
@@ -105,8 +91,6 @@ export default class TutorialScene extends Phaser.Scene {
 
     this.description = this.add.text(400, 200, textTutorialpart1, textStyle).setOrigin(0.5, 0);
 
-
-
     this.downTriangle.setInteractive();
     this.downTriangle.on('pointerdown', function () {
       this.upTriangle.setVisible(true)
@@ -120,9 +104,6 @@ export default class TutorialScene extends Phaser.Scene {
       this.downTriangle.setVisible(true)
       this.description.setText(textTutorialpart1)
     }, this);
-
-
-
 
   }
 

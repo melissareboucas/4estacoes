@@ -4,7 +4,11 @@ export default class SelectLevelScene extends Phaser.Scene {
 
   private leaderboard: any
 
-  private menuMusic!: Phaser.Sound.BaseSound
+  private musicMenu!: Phaser.Sound.BaseSound
+  private musicLevel1: Phaser.Sound.BaseSound
+  private musicLevel2!: Phaser.Sound.BaseSound
+  private musicLevel3!: Phaser.Sound.BaseSound
+  private musicLevel4!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -44,20 +48,14 @@ export default class SelectLevelScene extends Phaser.Scene {
   init(data) {
     this.playerName = data.playerName;
     this.leaderboard = data.leaderboard
+    this.musicMenu = data.musicMenu
+    this.musicLevel1 = data.musicLevel1
+    this.musicLevel2 = data.musicLevel2
+    this.musicLevel3 = data.musicLevel3
+    this.musicLevel4 = data.musicLevel4
   }
 
   public preload() {
-    this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-    this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
-    this.load.image('orangeBlock', '../../assets/images/orangeBlock.png')
-    this.load.image('back', '../../assets/images/back.png')
-    this.load.image('titleLevel', '../../assets/images/ESCOLHA A ESTAÇÃO.png')
-    this.load.image('level1', '../../assets/images/level1.png')
-    this.load.image('level2', '../../assets/images/level2.png')
-    this.load.image('level3', '../../assets/images/level3.png')
-    this.load.image('level4', '../../assets/images/level4.png')
-
-
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
@@ -72,21 +70,19 @@ export default class SelectLevelScene extends Phaser.Scene {
 
   public create() {
     this.blockPosition = 1;
-    this.menuMusic = this.sound.add('menuMusic', this.config);
-    this.menuMusic.play();
 
-    this.add.image(400, 300, 'bgMenu');
+    this.musicMenu.play();
 
+    this.add.image(400, 300, 'bg_menu');
 
     this.add.image(190, 60, 'titleLevel').setOrigin(0)
 
     this.add.text(210, 560, "Pressione Enter para selecionar", { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' });
 
-
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start('SelectCharacterScene')
     }, this);
@@ -96,36 +92,54 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.level3 = this.add.image(230, 440, 'level3')
     this.level4 = this.add.image(520, 440, 'level4')
 
-
-
     this.block = this.add.image(230, 260, 'orangeBlock')
 
     this.level1.setInteractive();
     this.level1.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.stop("SelectLevelScene")
-      this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
+      this.scene.start("Level1Scene", {
+        playerName: this.playerName,
+        leaderboard: this.leaderboard,
+        musicLevel1: this.musicLevel1,
+        musicMenu: this.musicMenu
+      });
     }, this);
 
     this.level2.setInteractive();
     this.level2.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.stop("SelectLevelScene")
-      this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
+      this.scene.start("Level2Scene", {
+        playerName: this.playerName,
+        leaderboard: this.leaderboard,
+        musicLevel2: this.musicLevel2,
+        musicMenu: this.musicMenu
+      });
     }, this);
 
     this.level3.setInteractive();
     this.level3.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.stop("SelectLevelScene")
-      this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
+      this.scene.start("Level3Scene", {
+        playerName: this.playerName,
+        leaderboard: this.leaderboard,
+        musicLevel3: this.musicLevel3,
+        musicMenu: this.musicMenu
+      });
     }, this);
 
     this.level4.setInteractive();
     this.level4.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.stop("SelectLevelScene")
-      this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
+      this.scene.start("Level4Scene", {
+        playerName: this.playerName,
+        leaderboard: this.leaderboard,
+        musicLevel4: this.musicLevel4,
+        musicMenu: this.musicMenu
+      });
     }, this);
 
 
@@ -169,24 +183,44 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     if (this.enter.isDown) {
       if (this.blockPosition == 1) {
-        this.menuMusic.stop();
+        this.musicMenu.stop();
         this.scene.stop("SelectLevelScene")
-        this.scene.start("Level1Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
-      } 
+        this.scene.start("Level1Scene", {
+          playerName: this.playerName,
+          leaderboard: this.leaderboard,
+          musicLevel1: this.musicLevel1,
+          musicMenu: this.musicMenu
+        });
+      }
       else if (this.blockPosition == 2) {
-        this.menuMusic.stop();
+        this.musicMenu.stop();
         this.scene.stop("SelectLevelScene")
-        this.scene.start("Level2Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
-      } 
+        this.scene.start("Level2Scene", {
+          playerName: this.playerName,
+          leaderboard: this.leaderboard,
+          musicLevel2: this.musicLevel2,
+          musicMenu: this.musicMenu
+        });
+      }
       else if (this.blockPosition == 3) {
-        this.menuMusic.stop();
+        this.musicMenu.stop();
         this.scene.stop("SelectLevelScene")
-        this.scene.start("Level3Scene", { playerName: this.playerName, leaderboard: this.leaderboard});
+        this.scene.start("Level3Scene", {
+          playerName: this.playerName,
+          leaderboard: this.leaderboard,
+          musicLevel3: this.musicLevel3,
+          musicMenu: this.musicMenu
+        });
       }
       else if (this.blockPosition == 4) {
-        this.menuMusic.stop();
+        this.musicMenu.stop();
         this.scene.stop("SelectLevelScene")
-        this.scene.start("Level4Scene", { playerName: this.playerName, leaderboard: this.leaderboard });
+        this.scene.start("Level4Scene", {
+          playerName: this.playerName,
+          leaderboard: this.leaderboard,
+          musicLevel4: this.musicLevel4,
+          musicMenu: this.musicMenu
+        });
       }
     }
 

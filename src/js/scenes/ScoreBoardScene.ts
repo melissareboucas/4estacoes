@@ -1,12 +1,11 @@
 
 import WebFontFile from "../inputs/WebfontFile";
 
-
 export default class ScoreBoardScene extends Phaser.Scene {
 
   private leaderboard: any
 
-  private menuMusic!: Phaser.Sound.BaseSound
+  private musicMenu!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -27,14 +26,11 @@ export default class ScoreBoardScene extends Phaser.Scene {
 
   init(data) {
     this.leaderboard = data.leaderboard
+    this.musicMenu = data.musicMenu
   }
 
   public preload() {
-    this.load.audio('menuMusic', '../../assets/audio/musicMenu.mp3');
-    this.load.image('bgMenu', '../../assets/backgrounds/menuBackground.png');
-    this.load.image('back', '../../assets/images/back.png')
-    this.load.image('titleScore', '../../assets/images/PLACAR.png')
-    this.load.image('logo', '../../assets/images/logo.png');
+
 
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
@@ -42,20 +38,17 @@ export default class ScoreBoardScene extends Phaser.Scene {
   }
 
   public async create() {
+    this.musicMenu.play();
 
-    this.menuMusic = this.sound.add('menuMusic', this.config);
-    this.menuMusic.play();
-
-    this.add.image(400, 300, 'bgMenu');
+    this.add.image(400, 300, 'bg_menu');
     this.add.image(400, 150, 'logo')
-
 
     this.add.image(260, 200, 'titleScore').setOrigin(0)
 
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.menuMusic.stop();
+      this.musicMenu.stop();
       this.scene.start('MenuScene')
     }, this);
 
@@ -86,9 +79,6 @@ export default class ScoreBoardScene extends Phaser.Scene {
     } else {
       this.add.text(200, 400, "Seja o primeiro a jogar!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
     }
-
-
-
 
   }
 

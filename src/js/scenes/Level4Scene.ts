@@ -8,7 +8,9 @@ export default class Level4Scene extends Phaser.Scene {
 
     private leaderboard: any
 
-    private musicLevel4!: Phaser.Sound.BaseSound 
+    private musicLevel4!: Phaser.Sound.BaseSound
+    private musicMenu: Phaser.Sound.BaseSound
+
     /**
     * A config object used to store default sound settings' values.
     * Default values will be set by properties' setters.
@@ -47,29 +49,18 @@ export default class Level4Scene extends Phaser.Scene {
 
 
     constructor() {
-        super({ key: "Level4Scene"});
-        
-      }
+        super({ key: "Level4Scene" });
+
+    }
 
     init(data) {
         this.playerName = data.playerName;
         this.leaderboard = data.leaderboard;
+        this.musicLevel4 = data.musicLevel4;
+        this.musicMenu = data.musicMenu
     }
 
     public preload() {
-        this.load.audio('musicLevel4', '../../assets/audio/musicLevel4.mp3');
-        this.load.image('backgroundLevel4', '../../assets/backgrounds/level4Background.jpeg');
-        
-        this.load.spritesheet('junior', '../../assets/images/junior.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('sandy', '../../assets/images/sandy.png', { frameWidth: 32, frameHeight: 48 });
-
-        this.load.image('springIcon', '../../assets/images/springIcon.png');
-        this.load.image('summerIcon', '../../assets/images/summerIcon.png');
-        this.load.image('fallIcon', '../../assets/images/fallIcon.png');
-        this.load.image('winterIcon', '../../assets/images/winterIcon.png');
-
-        this.load.image('back', '../../assets/images/back.png')
-
         //keys
         this.A = this.input.keyboard.addKey('A')
         this.S = this.input.keyboard.addKey('S')
@@ -81,13 +72,12 @@ export default class Level4Scene extends Phaser.Scene {
         this.enter = this.input.keyboard.addKey('ENTER')
         this.esc = this.input.keyboard.addKey('ESC')
     }
-  
+
     public create() {
-        this.musicLevel4 = this.sound.add('musicLevel4', this.config);
         this.musicLevel4.play();
 
         this.add.image(400, 300, 'backgroundLevel4').setScale(0.7);
-        
+
         this._score = new Score(this, 16, 16).setDepth(1);
 
         this._player = new Players(this, 100, 580, this.playerName).setDepth(1);
@@ -102,12 +92,11 @@ export default class Level4Scene extends Phaser.Scene {
             this.scene.restart();
             this.scene.start('MenuScene')
         }, this);
-        
+
         this._springIconGroup = new Icons(this, this._score, this.A, 40)
         this._springIconGroup.handleIconFalling(15000, 200, -30, 'springIcon', 16);
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
-    
 
         this._summerIconGroup = new Icons(this, this._score, this.S, 40)
         this._summerIconGroup.handleIconFalling(23000, 340, -30, 'summerIcon', 15)
@@ -124,47 +113,50 @@ export default class Level4Scene extends Phaser.Scene {
         this._winterIconGroup.handleIconFalling(6545, 600, -30, 'winterIcon', 40)
         this._winterIconGroup.handlePlayerOverlap(this._player)
         this._winterIconGroup.handlePlatformOverlap(this._platform)
-        
+
         this.physics.add.collider(this._player, this._platform);
-//
-        
+
         this.time.addEvent({
-            delay: this.musicLevel4.duration*1000,
+            delay: this.musicLevel4.duration * 1000,
             loop: false,
             callback: () => {
                 this.musicLevel4.stop();
-                this.scene.start("YourScoreScene",  {score: this._score, level: "INVERNO", leaderboard: this.leaderboard});
+                this.scene.start("YourScoreScene", {
+                    score: this._score, level: "INVERNO",
+                    leaderboard: this.leaderboard,
+                    musicMenu: this.musicMenu
+                });
             }
         })
 
     }
 
-    public update(){
-      
-        if (this.left.isDown && this.space.isDown)
-        {
+    public update() {
+
+        if (this.left.isDown && this.space.isDown) {
             this._player.setState("runningleft")
         }
         else if (this.left.isDown) {
             this._player.setState("walkingleft")
         }
-        else if (this.right.isDown && this.space.isDown)
-        {
+        else if (this.right.isDown && this.space.isDown) {
             this._player.setState("runningright")
         }
         else if (this.right.isDown) {
             this._player.setState("walkingright")
         }
-        else
-        {
+        else {
             this._player.setState("turn")
         }
 
         if (this._score.getGameOverScore() >= 1000) {
             this.musicLevel4.stop();
-            this.scene.start('GameOverScene', {score: this._score});
+            this.scene.start('GameOverScene', {
+                score: this._score,
+                musicMenu: this.musicMenu
+            });
         }
-        
+
         if (this.esc.isDown) {
             this.musicLevel4.stop();
             this.scene.restart();
@@ -172,5 +164,4 @@ export default class Level4Scene extends Phaser.Scene {
         }
     }
 
-  }
-  
+}
