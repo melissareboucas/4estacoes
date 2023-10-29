@@ -4,15 +4,19 @@ import WebFontFile from "../inputs/WebfontFile";
 
 import { v4 as uuidv4 } from 'uuid';
 
-declare const firebase: any
 
+
+
+declare const firebase: any
+console.log(process.env.apiKey);
+console.log(process.env.authDomain);
 var firebaseConfig = {
-  apiKey: "AIzaSyDTYiyAoCDSP3kjmC-CoucQTbWc4ZAbZM0",
-  authDomain: "estacoes-c9bed.firebaseapp.com",
-  projectId: "estacoes-c9bed",
-  storageBucket: "estacoes-c9bed.appspot.com",
-  messagingSenderId: "951179728056",
-  appId: "1:951179728056:web:b1555e56b38d577fbbd04d"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
 };
 
 // Initialize Firebase

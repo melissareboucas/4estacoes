@@ -116,8 +116,9 @@ export default class Level3Scene extends Phaser.Scene {
 
         this.physics.add.collider(this._player, this._platform);
 
+        //simulate score scene - voltar tempo para 1000
         this.time.addEvent({
-            delay: this.musicLevel3.duration * 1000,
+            delay: this.musicLevel3.duration * 10,
             loop: false,
             callback: () => {
                 this.musicLevel3.stop();

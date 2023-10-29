@@ -2,6 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const package = require("./package.json");
+const Dotenv = require('dotenv-webpack');
+
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/js/index.ts"),
@@ -44,7 +46,7 @@ module.exports = {
     },
   },
   resolve: {
-    extensions: [".js", ".ts"],
+    extensions: [".js", ".ts"]
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
@@ -56,6 +58,7 @@ module.exports = {
     static: path.resolve(__dirname, "./dist"),
   },
   plugins: [
+    new Dotenv(),
     new CopyWebpackPlugin({
       patterns: [
         {
