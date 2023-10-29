@@ -13,6 +13,7 @@ export default class SelectLevelScene extends Phaser.Scene {
   private previewLevel2!: Phaser.Sound.BaseSound
   private previewLevel3!: Phaser.Sound.BaseSound
   private previewLevel4!: Phaser.Sound.BaseSound
+  private errorSFX!: Phaser.Sound.BaseSound
 
   //keys
   right: Phaser.Input.Keyboard.Key;
@@ -51,6 +52,7 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.previewLevel2 = data.previewLevel2
     this.previewLevel3 = data.previewLevel3
     this.previewLevel4 = data.previewLevel4
+    this.errorSFX = data.errorSFX
   }
 
   public preload() {
@@ -106,7 +108,8 @@ export default class SelectLevelScene extends Phaser.Scene {
         playerName: this.playerName,
         leaderboard: this.leaderboard,
         musicLevel1: this.musicLevel1,
-        musicMenu: this.musicMenu
+        musicMenu: this.musicMenu,
+        errorSFX: this.errorSFX
       });
     }, this);
 
@@ -121,7 +124,8 @@ export default class SelectLevelScene extends Phaser.Scene {
         playerName: this.playerName,
         leaderboard: this.leaderboard,
         musicLevel2: this.musicLevel2,
-        musicMenu: this.musicMenu
+        musicMenu: this.musicMenu,
+        errorSFX: this.errorSFX
       });
     }, this);
 
@@ -136,7 +140,8 @@ export default class SelectLevelScene extends Phaser.Scene {
         playerName: this.playerName,
         leaderboard: this.leaderboard,
         musicLevel3: this.musicLevel3,
-        musicMenu: this.musicMenu
+        musicMenu: this.musicMenu,
+        errorSFX: this.errorSFX
       });
     }, this);
 
@@ -151,7 +156,8 @@ export default class SelectLevelScene extends Phaser.Scene {
         playerName: this.playerName,
         leaderboard: this.leaderboard,
         musicLevel4: this.musicLevel4,
-        musicMenu: this.musicMenu
+        musicMenu: this.musicMenu,
+        errorSFX: this.errorSFX
       });
     }, this);
 
@@ -212,7 +218,8 @@ export default class SelectLevelScene extends Phaser.Scene {
           playerName: this.playerName,
           leaderboard: this.leaderboard,
           musicLevel1: this.musicLevel1,
-          musicMenu: this.musicMenu
+          musicMenu: this.musicMenu,
+          errorSFX: this.errorSFX
         });
       }
       else if (this.blockPosition == 2) {
@@ -225,7 +232,8 @@ export default class SelectLevelScene extends Phaser.Scene {
           playerName: this.playerName,
           leaderboard: this.leaderboard,
           musicLevel2: this.musicLevel2,
-          musicMenu: this.musicMenu
+          musicMenu: this.musicMenu,
+          errorSFX: this.errorSFX
         });
       }
       else if (this.blockPosition == 3) {
@@ -238,7 +246,8 @@ export default class SelectLevelScene extends Phaser.Scene {
           playerName: this.playerName,
           leaderboard: this.leaderboard,
           musicLevel3: this.musicLevel3,
-          musicMenu: this.musicMenu
+          musicMenu: this.musicMenu,
+          errorSFX: this.errorSFX
         });
       }
       else if (this.blockPosition == 4) {
@@ -251,7 +260,8 @@ export default class SelectLevelScene extends Phaser.Scene {
           playerName: this.playerName,
           leaderboard: this.leaderboard,
           musicLevel4: this.musicLevel4,
-          musicMenu: this.musicMenu
+          musicMenu: this.musicMenu,
+          errorSFX: this.errorSFX
         });
       }
     }

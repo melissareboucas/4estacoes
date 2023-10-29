@@ -10,6 +10,7 @@ export default class Level2Scene extends Phaser.Scene {
 
     private musicLevel2!: Phaser.Sound.BaseSound
     private musicMenu: Phaser.Sound.BaseSound
+    private errorSFX: Phaser.Sound.BaseSound
 
     private _player: Players
     private playerName: string
@@ -44,7 +45,8 @@ export default class Level2Scene extends Phaser.Scene {
         this.playerName = data.playerName;
         this.leaderboard = data.leaderboard;
         this.musicLevel2 = data.musicLevel2;
-        this.musicMenu = data.musicMenu
+        this.musicMenu = data.musicMenu;
+        this.errorSFX = data.errorSFX
     }
 
     public preload() {

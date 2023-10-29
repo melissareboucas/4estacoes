@@ -12,6 +12,20 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
 
     private gravity: number
 
+    private errorSFX!: Phaser.Sound.BaseSound
+    /**
+    * A config object used to store default sound settings' values.
+    * Default values will be set by properties' setters.
+    *
+    * @name Phaser.Sound.BaseSound#config
+    * @type {Phaser.Types.Sound.SoundConfig}
+    * @private
+    * @since 3.0.0
+    */
+    config = {
+        loop: false,
+    };
+
 
     constructor(scene: Phaser.Scene, score: Score, pressedKey: Phaser.Input.Keyboard.Key, gravity: number) {
         super(scene.physics.world, scene)
@@ -19,6 +33,7 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
         this.score = score;
         this.pressedKey = pressedKey;
         this.gravity = gravity
+        this.errorSFX = this.scene.sound.add('errorSFX', this.config);
     }
 
 
@@ -36,8 +51,8 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
             delay: timeDelay,
             callback: () => {
                 const image = this.addImage(x, y, textureKey);
-            // Apply gravity to the image
-            image.setGravityY(this.gravity); // 
+                // Apply gravity to the image
+                image.setGravityY(this.gravity); // 
             },
             repeat: repetitionNumber
         });
@@ -49,9 +64,9 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
     }
 
     public playerCallback() {
-        if(this.precision == 100) {           
+        if (this.precision == 100) {
             this.score.updateScore(10);
-        } else if (this.precision == 50) {        
+        } else if (this.precision == 50) {
             this.score.updateScore(5);
         } 
 
@@ -79,9 +94,10 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
 
     }
 
-    public platformCallback(){
+    public platformCallback() {
+        this.errorSFX.play()
         this.score.updateGameOverScore(1);
-        this.getFirstAlive().destroy(); 
+        this.getFirstAlive().destroy();
     }
 
 

@@ -9,6 +9,7 @@ export default class LoaderScene extends Phaser.Scene {
   private previewLevel2!: Phaser.Sound.BaseSound
   private previewLevel3!: Phaser.Sound.BaseSound
   private previewLevel4!: Phaser.Sound.BaseSound
+  private errorSFX!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -93,6 +94,9 @@ export default class LoaderScene extends Phaser.Scene {
     this.load.audio('previewLevel3', '../../assets/audio/previewLevel3.mp3');
     this.load.audio('previewLevel4', '../../assets/audio/previewLevel4.mp3');
 
+    //SFX
+    this.load.audio('errorSFX', '../../assets/audio/errorSFX.mp3');
+
   }
 
   public create() {
@@ -105,6 +109,7 @@ export default class LoaderScene extends Phaser.Scene {
     this.previewLevel2 = this.sound.add('previewLevel2', { loop: true });
     this.previewLevel3 = this.sound.add('previewLevel3', { loop: true });
     this.previewLevel4 = this.sound.add('previewLevel4', { loop: true });
+    this.errorSFX = this.sound.add('errorSFX', this.config);
 
 
     this.add.image(400, 300, 'bg_menu');
@@ -125,7 +130,7 @@ export default class LoaderScene extends Phaser.Scene {
       previewLevel2: this.previewLevel2,
       previewLevel3: this.previewLevel3,
       previewLevel4: this.previewLevel4,
-      
+      errorSFX: this.errorSFX
     });
   }
 }

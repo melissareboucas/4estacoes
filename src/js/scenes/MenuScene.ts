@@ -14,6 +14,7 @@ export default class MenuScene extends Phaser.Scene {
     private previewLevel2!: Phaser.Sound.BaseSound
     private previewLevel3!: Phaser.Sound.BaseSound
     private previewLevel4!: Phaser.Sound.BaseSound
+    private errorSFX!: Phaser.Sound.BaseSound
 
     constructor() {
         super({ key: "MenuScene" });
@@ -29,6 +30,7 @@ export default class MenuScene extends Phaser.Scene {
         this.previewLevel2 = data.previewLevel2
         this.previewLevel3 = data.previewLevel3
         this.previewLevel4 = data.previewLevel4
+        this.errorSFX = data.errorSFX
     }
 
     public preload() {
@@ -79,6 +81,7 @@ export default class MenuScene extends Phaser.Scene {
                 previewLevel2: this.previewLevel2,
                 previewLevel3: this.previewLevel3,
                 previewLevel4: this.previewLevel4,
+                errorSFX: this.errorSFX
             })
         }, this);
 
