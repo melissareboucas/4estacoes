@@ -9,18 +9,10 @@ export default class SelectCharacterScene extends Phaser.Scene {
     private musicLevel2!: Phaser.Sound.BaseSound
     private musicLevel3!: Phaser.Sound.BaseSound
     private musicLevel4!: Phaser.Sound.BaseSound
-    /**
-    * A config object used to store default sound settings' values.
-    * Default values will be set by properties' setters.
-    *
-    * @name Phaser.Sound.BaseSound#config
-    * @type {Phaser.Types.Sound.SoundConfig}
-    * @private
-    * @since 3.0.0
-    */
-    config = {
-        loop: false,
-    };
+    private previewLevel1!: Phaser.Sound.BaseSound
+    private previewLevel2!: Phaser.Sound.BaseSound
+    private previewLevel3!: Phaser.Sound.BaseSound
+    private previewLevel4!: Phaser.Sound.BaseSound
 
     right: Phaser.Input.Keyboard.Key;
     left: Phaser.Input.Keyboard.Key;
@@ -55,6 +47,10 @@ export default class SelectCharacterScene extends Phaser.Scene {
         this.musicLevel2 = data.musicLevel2
         this.musicLevel3 = data.musicLevel3
         this.musicLevel4 = data.musicLevel4
+        this.previewLevel1 = data.previewLevel1
+        this.previewLevel2 = data.previewLevel2
+        this.previewLevel3 = data.previewLevel3
+        this.previewLevel4 = data.previewLevel4
     }
 
     public preload() {
@@ -184,7 +180,11 @@ export default class SelectCharacterScene extends Phaser.Scene {
                 musicLevel1: this.musicLevel1,
                 musicLevel2: this.musicLevel2,
                 musicLevel3: this.musicLevel3,
-                musicLevel4: this.musicLevel4
+                musicLevel4: this.musicLevel4,
+                previewLevel1: this.previewLevel1,
+                previewLevel2: this.previewLevel2,
+                previewLevel3: this.previewLevel3,
+                previewLevel4: this.previewLevel4,
             });
         }
 

@@ -9,18 +9,10 @@ export default class SelectLevelScene extends Phaser.Scene {
   private musicLevel2!: Phaser.Sound.BaseSound
   private musicLevel3!: Phaser.Sound.BaseSound
   private musicLevel4!: Phaser.Sound.BaseSound
-  /**
-  * A config object used to store default sound settings' values.
-  * Default values will be set by properties' setters.
-  *
-  * @name Phaser.Sound.BaseSound#config
-  * @type {Phaser.Types.Sound.SoundConfig}
-  * @private
-  * @since 3.0.0
-  */
-  config = {
-    loop: false,
-  };
+  private previewLevel1!: Phaser.Sound.BaseSound
+  private previewLevel2!: Phaser.Sound.BaseSound
+  private previewLevel3!: Phaser.Sound.BaseSound
+  private previewLevel4!: Phaser.Sound.BaseSound
 
   //keys
   right: Phaser.Input.Keyboard.Key;
@@ -39,6 +31,8 @@ export default class SelectLevelScene extends Phaser.Scene {
   private level3!: Phaser.GameObjects.Image
   private level4!: Phaser.GameObjects.Image
 
+  private aux: number
+
   constructor() {
     super({ key: "SelectLevelScene" });
     this.blockPosition = 1;
@@ -53,6 +47,10 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.musicLevel2 = data.musicLevel2
     this.musicLevel3 = data.musicLevel3
     this.musicLevel4 = data.musicLevel4
+    this.previewLevel1 = data.previewLevel1
+    this.previewLevel2 = data.previewLevel2
+    this.previewLevel3 = data.previewLevel3
+    this.previewLevel4 = data.previewLevel4
   }
 
   public preload() {
@@ -66,12 +64,12 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.up = this.input.keyboard.addKey('UP')
     this.down = this.input.keyboard.addKey('DOWN')
     this.enter = this.input.keyboard.addKey('ENTER')
+
+    this.aux = 0
   }
 
   public create() {
     this.blockPosition = 1;
-
-    this.musicMenu.play();
 
     this.add.image(400, 300, 'bg_menu');
 
@@ -82,7 +80,10 @@ export default class SelectLevelScene extends Phaser.Scene {
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.musicMenu.stop();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start('SelectCharacterScene')
     }, this);
@@ -96,7 +97,10 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     this.level1.setInteractive();
     this.level1.on('pointerdown', function () {
-      this.musicMenu.stop();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start("Level1Scene", {
         playerName: this.playerName,
@@ -108,7 +112,10 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     this.level2.setInteractive();
     this.level2.on('pointerdown', function () {
-      this.musicMenu.stop();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start("Level2Scene", {
         playerName: this.playerName,
@@ -120,7 +127,10 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     this.level3.setInteractive();
     this.level3.on('pointerdown', function () {
-      this.musicMenu.stop();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start("Level3Scene", {
         playerName: this.playerName,
@@ -132,7 +142,10 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     this.level4.setInteractive();
     this.level4.on('pointerdown', function () {
-      this.musicMenu.stop();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
       this.scene.stop("SelectLevelScene")
       this.scene.start("Level4Scene", {
         playerName: this.playerName,
@@ -150,40 +163,50 @@ export default class SelectLevelScene extends Phaser.Scene {
     if (this.right.isDown && this.blockPosition == 1) {
       this.block.setX(520);
       this.blockPosition = 2;
+      this.aux=0
     }
     else if (this.right.isDown && this.blockPosition == 3) {
       this.block.setX(520);
       this.blockPosition = 4;
+      this.aux=0
     }
     else if (this.left.isDown && this.blockPosition == 2) {
       this.block.setX(230);
       this.blockPosition = 1;
+      this.aux=0
     }
     else if (this.left.isDown && this.blockPosition == 4) {
       this.block.setX(230);
       this.blockPosition = 3;
+      this.aux=0
     }
     else if (this.up.isDown && this.blockPosition == 3) {
       this.block.setY(260);
       this.blockPosition = 1;
+      this.aux=0
     }
     else if (this.up.isDown && this.blockPosition == 4) {
       this.block.setY(260);
       this.blockPosition = 2;
+      this.aux=0
     }
     else if (this.down.isDown && this.blockPosition == 1) {
       this.block.setY(440);
       this.blockPosition = 3;
+      this.aux=0
     }
     else if (this.down.isDown && this.blockPosition == 2) {
       this.block.setY(440);
       this.blockPosition = 4;
+      this.aux=0
     }
-
 
     if (this.enter.isDown) {
       if (this.blockPosition == 1) {
-        this.musicMenu.stop();
+        this.previewLevel1.stop();
+        this.previewLevel2.stop();
+        this.previewLevel3.stop();
+        this.previewLevel4.stop();
         this.scene.stop("SelectLevelScene")
         this.scene.start("Level1Scene", {
           playerName: this.playerName,
@@ -193,7 +216,10 @@ export default class SelectLevelScene extends Phaser.Scene {
         });
       }
       else if (this.blockPosition == 2) {
-        this.musicMenu.stop();
+        this.previewLevel1.stop();
+        this.previewLevel2.stop();
+        this.previewLevel3.stop();
+        this.previewLevel4.stop();
         this.scene.stop("SelectLevelScene")
         this.scene.start("Level2Scene", {
           playerName: this.playerName,
@@ -203,7 +229,10 @@ export default class SelectLevelScene extends Phaser.Scene {
         });
       }
       else if (this.blockPosition == 3) {
-        this.musicMenu.stop();
+        this.previewLevel1.stop();
+        this.previewLevel2.stop();
+        this.previewLevel3.stop();
+        this.previewLevel4.stop();
         this.scene.stop("SelectLevelScene")
         this.scene.start("Level3Scene", {
           playerName: this.playerName,
@@ -213,7 +242,10 @@ export default class SelectLevelScene extends Phaser.Scene {
         });
       }
       else if (this.blockPosition == 4) {
-        this.musicMenu.stop();
+        this.previewLevel1.stop();
+        this.previewLevel2.stop();
+        this.previewLevel3.stop();
+        this.previewLevel4.stop();
         this.scene.stop("SelectLevelScene")
         this.scene.start("Level4Scene", {
           playerName: this.playerName,
@@ -224,6 +256,61 @@ export default class SelectLevelScene extends Phaser.Scene {
       }
     }
 
+    if (this.blockPosition == 1) {
+      this.handlePreviewLevel1();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop()
+    }
+
+    if (this.blockPosition == 2) {
+      this.handlePreviewLevel2();
+      this.previewLevel1.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop()
+    }
+
+    if (this.blockPosition == 3) {
+      this.handlePreviewLevel3();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel4.stop()
+    }
+
+    if (this.blockPosition == 4) {
+      this.handlePreviewLevel4();
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop()
+    }
+
   }
 
+  handlePreviewLevel1(){
+    if (this.aux == 0) {
+      this.previewLevel1.play();
+    }
+    this.aux = 1;
+  }
+
+  handlePreviewLevel2(){
+    if (this.aux == 0) {
+      this.previewLevel2.play();
+    }
+    this.aux = 1;
+  }
+
+  handlePreviewLevel3(){
+    if (this.aux == 0) {
+      this.previewLevel3.play();
+    }
+    this.aux = 1;
+  }
+
+  handlePreviewLevel4(){
+    if (this.aux == 0) {
+      this.previewLevel4.play();
+    }
+    this.aux = 1;
+  }
 }

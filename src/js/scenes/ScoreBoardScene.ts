@@ -6,18 +6,6 @@ export default class ScoreBoardScene extends Phaser.Scene {
   private leaderboard: any
 
   private musicMenu!: Phaser.Sound.BaseSound
-  /**
-  * A config object used to store default sound settings' values.
-  * Default values will be set by properties' setters.
-  *
-  * @name Phaser.Sound.BaseSound#config
-  * @type {Phaser.Types.Sound.SoundConfig}
-  * @private
-  * @since 3.0.0
-  */
-  config = {
-    loop: false,
-  };
 
   constructor() {
     super({ key: "ScoreBoardScene" });

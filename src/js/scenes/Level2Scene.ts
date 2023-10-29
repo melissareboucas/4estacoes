@@ -11,19 +11,6 @@ export default class Level2Scene extends Phaser.Scene {
     private musicLevel2!: Phaser.Sound.BaseSound
     private musicMenu: Phaser.Sound.BaseSound
 
-    /**
-    * A config object used to store default sound settings' values.
-    * Default values will be set by properties' setters.
-    *
-    * @name Phaser.Sound.BaseSound#config
-    * @type {Phaser.Types.Sound.SoundConfig}
-    * @private
-    * @since 3.0.0
-    */
-    config = {
-        loop: false,
-    };
-
     private _player: Players
     private playerName: string
 

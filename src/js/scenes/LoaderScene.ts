@@ -5,6 +5,10 @@ export default class LoaderScene extends Phaser.Scene {
   private musicLevel2!: Phaser.Sound.BaseSound
   private musicLevel3!: Phaser.Sound.BaseSound
   private musicLevel4!: Phaser.Sound.BaseSound
+  private previewLevel1!: Phaser.Sound.BaseSound
+  private previewLevel2!: Phaser.Sound.BaseSound
+  private previewLevel3!: Phaser.Sound.BaseSound
+  private previewLevel4!: Phaser.Sound.BaseSound
   /**
   * A config object used to store default sound settings' values.
   * Default values will be set by properties' setters.
@@ -84,6 +88,10 @@ export default class LoaderScene extends Phaser.Scene {
     this.load.audio('musicLevel2', '../../assets/audio/musicLevel2.mp3');
     this.load.audio('musicLevel3', '../../assets/audio/musicLevel3.mp3');
     this.load.audio('musicLevel4', '../../assets/audio/musicLevel4.mp3');
+    this.load.audio('previewLevel1', '../../assets/audio/previewLevel1.mp3');
+    this.load.audio('previewLevel2', '../../assets/audio/previewLevel2.mp3');
+    this.load.audio('previewLevel3', '../../assets/audio/previewLevel3.mp3');
+    this.load.audio('previewLevel4', '../../assets/audio/previewLevel4.mp3');
 
   }
 
@@ -93,6 +101,11 @@ export default class LoaderScene extends Phaser.Scene {
     this.musicLevel2 = this.sound.add('musicLevel2', this.config);
     this.musicLevel3 = this.sound.add('musicLevel3', this.config);
     this.musicLevel4 = this.sound.add('musicLevel4', this.config);
+    this.previewLevel1 = this.sound.add('previewLevel1', { loop: true });
+    this.previewLevel2 = this.sound.add('previewLevel2', { loop: true });
+    this.previewLevel3 = this.sound.add('previewLevel3', { loop: true });
+    this.previewLevel4 = this.sound.add('previewLevel4', { loop: true });
+
 
     this.add.image(400, 300, 'bg_menu');
     this.add.text(400, 320, `CARREGANDO...`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
@@ -107,7 +120,12 @@ export default class LoaderScene extends Phaser.Scene {
       musicLevel1: this.musicLevel1,
       musicLevel2: this.musicLevel2,
       musicLevel3: this.musicLevel3,
-      musicLevel4: this.musicLevel4
+      musicLevel4: this.musicLevel4,
+      previewLevel1: this.previewLevel1,
+      previewLevel2: this.previewLevel2,
+      previewLevel3: this.previewLevel3,
+      previewLevel4: this.previewLevel4,
+      
     });
   }
 }
