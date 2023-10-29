@@ -35,6 +35,11 @@ export default class Level2Scene extends Phaser.Scene {
     private _fallIconGroup: Icons
     private _winterIconGroup: Icons
 
+    private springTimeArray: number[]
+    private summerTimeArray: number[]
+    private fallTimeArray: number[]
+    private winterTimeArray: number[]
+
 
     constructor() {
         super({ key: "Level2Scene" });
@@ -82,31 +87,35 @@ export default class Level2Scene extends Phaser.Scene {
             this.scene.start('MenuScene')
         }, this);
 
-        this._springIconGroup = new Icons(this, this._score, this.A, 20)
-        this._springIconGroup.handleIconFalling(35559, 200, -30, 'springIcon', 7);
+        this.springTimeArray = [8, 29, 30, 39, 59, 79, 96, 97, 114, 123, 145, 150, 152, 173, 174, 192, 193, 211, 224]
+        this._springIconGroup = new Icons(this, this._score, this.A, 20, 200, -30, 'springIcon')
+        this._springIconGroup.handleIconFalling(this.springTimeArray)
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
 
-        this._summerIconGroup = new Icons(this, this._score, this.S, 20)
-        this._summerIconGroup.create(340, -30, 'summerIcon').setScale(0.15).setGravityY(20)
-        this._summerIconGroup.handleIconFalling(6130, 340, -30, 'summerIcon', 35)
+        this.summerTimeArray = [3, 12, 17, 22, 31, 35, 45, 50, 54, 64, 69, 73, 85, 89, 94, 99, 102, 113, 116, 121, 131, 136, 140, 162, 166, 171, 180, 185, 190, 194, 199, 204, 208, 213, 218]
+        this._summerIconGroup = new Icons(this, this._score, this.S, 20, 340, -30, 'summerIcon')
+        this._summerIconGroup.handleIconFalling(this.summerTimeArray)
         this._summerIconGroup.handlePlayerOverlap(this._player)
         this._summerIconGroup.handlePlatformOverlap(this._platform)
 
-        this._fallIconGroup = new Icons(this, this._score, this.D, 20)
-        this._fallIconGroup.handleIconFalling(20845, 470, -30, 'fallIcon', 9)
+        this.fallTimeArray = [15, 19, 25, 34, 47, 52, 66, 71, 75, 87, 92, 101, 115, 120, 134, 138, 164, 169, 183, 187, 201, 206, 216, 220]
+        this._fallIconGroup = new Icons(this, this._score, this.D, 20, 470, -30, 'fallIcon')
+        this._fallIconGroup.handleIconFalling(this.fallTimeArray)
         this._fallIconGroup.handlePlayerOverlap(this._player)
         this._fallIconGroup.handlePlatformOverlap(this._platform)
 
-        this._winterIconGroup = new Icons(this, this._score, this.F, 20)
-        this._winterIconGroup.handleIconFalling(28202, 600, -30, 'winterIcon', 6)
+        this.winterTimeArray = [10, 26, 38, 43, 57, 60, 78, 82, 103, 111, 122, 129, 143, 159, 178, 197, 222, 226]
+        this._winterIconGroup = new Icons(this, this._score, this.F, 20, 600, -30, 'winterIcon')
+        this._winterIconGroup.handleIconFalling(this.winterTimeArray)
         this._winterIconGroup.handlePlayerOverlap(this._player)
         this._winterIconGroup.handlePlatformOverlap(this._platform)
-
+        
         this.physics.add.collider(this._player, this._platform);
 
+        //simulate score scene - voltar tempo para 1000
         this.time.addEvent({
-            delay: this.musicLevel2.duration * 1000,
+            delay: this.musicLevel2.duration * 10,
             loop: false,
             callback: () => {
                 this.musicLevel2.stop();

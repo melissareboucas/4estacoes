@@ -70,6 +70,7 @@ export default class LoaderScene extends Phaser.Scene {
     this.load.image('xVector', '../../assets/images/xVector.png')
     this.load.image('orangeBlock', '../../assets/images/orangeBlock.png')
     this.load.image('scoreBlock', '../../assets/images/scoreBlock.png');
+    this.load.image('selectionBox', '../../assets/images/selectionBox.png');
 
     //logo
     this.load.image('logo', '../../assets/images/logo.png');

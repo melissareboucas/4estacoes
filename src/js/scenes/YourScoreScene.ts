@@ -8,8 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 declare const firebase: any
-console.log(process.env.apiKey);
-console.log(process.env.authDomain);
 var firebaseConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,

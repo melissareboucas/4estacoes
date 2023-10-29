@@ -34,7 +34,10 @@ export default class Level1Scene extends Phaser.Scene {
     private _fallIconGroup: Icons
     private _winterIconGroup: Icons
 
-
+    private springTimeArray: number[]
+    private summerTimeArray: number[]
+    private fallTimeArray: number[]
+    private winterTimeArray: number[]
 
 
     constructor() {
@@ -83,24 +86,27 @@ export default class Level1Scene extends Phaser.Scene {
             this.scene.start('MenuScene')
         }, this);
 
-        this._springIconGroup = new Icons(this, this._score, this.A, 10)
-        this._springIconGroup.create(200, -30, 'springIcon').setScale(0.15).setGravityY(10);
-        this._springIconGroup.handleIconFalling(5000, 200, -30, 'springIcon', 45);
+        this.springTimeArray = [14, 26, 36, 48, 54, 66, 72, 125, 137, 143, 155, 160]
+        this._springIconGroup = new Icons(this, this._score, this.A, 10, 200, -30, 'springIcon')
+        this._springIconGroup.handleIconFalling(this.springTimeArray)
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
 
-        this._summerIconGroup = new Icons(this, this._score, this.S, 10)
-        this._summerIconGroup.handleIconFalling(17000, 340, -30, 'summerIcon', 10)
+        this.summerTimeArray = [6, 10, 18, 22, 30, 34, 42, 46, 78, 90, 102, 106, 108, 119, 122, 131, 134, 166, 178, 190, 196, 202, 214, 225, 231, 239]
+        this._summerIconGroup = new Icons(this, this._score, this.S, 10, 340, -30, 'summerIcon')
+        this._summerIconGroup.handleIconFalling(this.summerTimeArray)
         this._summerIconGroup.handlePlayerOverlap(this._player)
         this._summerIconGroup.handlePlatformOverlap(this._platform)
 
-        this._fallIconGroup = new Icons(this, this._score, this.D, 10)
-        this._fallIconGroup.handleIconFalling(23000, 470, -30, 'fallIcon', 8)
+        this.fallTimeArray = [41, 53, 60, 75, 87, 98, 105, 128, 140, 149, 164, 175, 187, 192, 198, 211, 222, 227, 233]
+        this._fallIconGroup = new Icons(this, this._score, this.D, 10, 470, -30, 'fallIcon')
+        this._fallIconGroup.handleIconFalling(this.fallTimeArray)
         this._fallIconGroup.handlePlayerOverlap(this._player)
         this._fallIconGroup.handlePlatformOverlap(this._platform)
 
-        this._winterIconGroup = new Icons(this, this._score, this.F, 10)
-        this._winterIconGroup.handleIconFalling(29000, 600, -30, 'winterIcon', 6)
+        this.winterTimeArray =  [65, 96, 100, 105, 112, 115, 153, 172, 184, 189, 194, 201, 208, 213, 220, 224, 229, 235]
+        this._winterIconGroup = new Icons(this, this._score, this.F, 10, 600, -30, 'winterIcon')
+        this._winterIconGroup.handleIconFalling(this.winterTimeArray)
         this._winterIconGroup.handlePlayerOverlap(this._player)
         this._winterIconGroup.handlePlatformOverlap(this._platform)
 
@@ -139,7 +145,7 @@ export default class Level1Scene extends Phaser.Scene {
             this._player.setState("turn")
         }
 
-        if (this._score.getGameOverScore() >= 32) {
+        if (this._score.getGameOverScore() >= 25) {
             this.musicLevel1.stop();
             this.scene.start('GameOverScene', {
                 score: this._score,

@@ -11,6 +11,9 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
     private score: Score
 
     private gravity: number
+    private x: number
+    private y: number
+    private textureKey: string
 
     private errorSFX!: Phaser.Sound.BaseSound
     /**
@@ -27,13 +30,17 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
     };
 
 
-    constructor(scene: Phaser.Scene, score: Score, pressedKey: Phaser.Input.Keyboard.Key, gravity: number) {
+    constructor(scene: Phaser.Scene, score: Score, pressedKey: Phaser.Input.Keyboard.Key, gravity: number, x: number, y: number, textureKey: string) {
         super(scene.physics.world, scene)
 
         this.score = score;
         this.pressedKey = pressedKey;
         this.gravity = gravity
+        this.x = x;
+        this.y = y;
+        this.textureKey = textureKey
         this.errorSFX = this.scene.sound.add('errorSFX', this.config);
+
     }
 
 
@@ -44,18 +51,20 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
         return image; // Return the created image for further manipulation if needed
     }
 
-
-
-    public handleIconFalling(timeDelay: number, x: number, y: number, textureKey: string, repetitionNumber: number) {
-        this.scene.time.addEvent({
-            delay: timeDelay,
-            callback: () => {
-                const image = this.addImage(x, y, textureKey);
-                // Apply gravity to the image
-                image.setGravityY(this.gravity); // 
-            },
-            repeat: repetitionNumber
+    public handleIconFalling(times: number[]) {
+        times.forEach((time) => {
+            this.scene.time.addEvent({
+                delay: time*1000-6000,
+                callback: this.handleEvent, // Your event handler function
+                callbackScope: this,
+            });
         });
+    }
+
+    handleEvent(){
+        const image = this.addImage(this.x, this.y, this.textureKey);
+        // Apply gravity to the image
+        image.setGravityY(this.gravity); //
     }
 
     public handlePlayerOverlap(player: Players) {
@@ -68,7 +77,7 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
             this.score.updateScore(10);
         } else if (this.precision == 50) {
             this.score.updateScore(5);
-        } 
+        }
 
     }
 

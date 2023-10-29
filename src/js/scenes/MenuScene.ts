@@ -16,8 +16,18 @@ export default class MenuScene extends Phaser.Scene {
     private previewLevel4!: Phaser.Sound.BaseSound
     private errorSFX!: Phaser.Sound.BaseSound
 
+    up: Phaser.Input.Keyboard.Key;
+    down: Phaser.Input.Keyboard.Key;
+    enter: Phaser.Input.Keyboard.Key;
+    
+
+    private selectionBox!: Phaser.GameObjects.Image
+
+    private blockPosition: number
+
     constructor() {
         super({ key: "MenuScene" });
+        this.blockPosition = 1;
     }
 
     init(data) {
@@ -36,9 +46,15 @@ export default class MenuScene extends Phaser.Scene {
     public preload() {
         const fonts = new WebFontFile(this.load, 'Press Start 2P');
         this.load.addFile(fonts)
+
+        //keys
+        this.up = this.input.keyboard.addKey('UP')
+        this.down = this.input.keyboard.addKey('DOWN')
+        this.enter = this.input.keyboard.addKey('ENTER')
     }
 
     public create() {
+        this.blockPosition = 1;
 
         this.musicLevel1.stop();
         this.musicLevel2.stop();
@@ -48,11 +64,13 @@ export default class MenuScene extends Phaser.Scene {
         this.leaderboard = new LeaderBoard({
             root: 'leaderboard'
         })
-        
+
         this.musicMenu.play();
 
         this.add.image(400, 300, 'bg_menu');
         this.add.image(400, 220, 'logo')
+
+        this.selectionBox = this.add.image(400, 320, 'selectionBox').setDepth(1)
 
         var tutorialButton = this.add.image(400, 320, 'tutorialButton');
         this.add.text(400, 320, `TUTORIAL`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
@@ -90,7 +108,7 @@ export default class MenuScene extends Phaser.Scene {
         scoreButton.setInteractive();
         scoreButton.on('pointerdown', function () {
             this.musicMenu.stop();
-            this.scene.start('ScoreBoardScene', { 
+            this.scene.start('ScoreBoardScene', {
                 leaderboard: this.leaderboard,
                 musicMenu: this.musicMenu
             })
@@ -101,13 +119,93 @@ export default class MenuScene extends Phaser.Scene {
         creditsButton.setInteractive();
         creditsButton.on('pointerdown', function () {
             this.musicMenu.stop();
-            this.scene.start('CreditsScene',{
+            this.scene.start('CreditsScene', {
                 musicMenu: this.musicMenu
             })
         }, this);
 
         this.add.text(580, 570, `Developed by Melissa`, { fontFamily: '"Press Start 2P"', fontSize: '10px', color: '#000000' });
 
+    }
+
+    public update() {
+
+        
+        if (this.down.isDown && this.blockPosition == 4) {
+            this.selectionBox.setY(320);
+            this.blockPosition = 1;
+        }
+        else if (this.down.isDown && this.blockPosition == 3) {
+            this.selectionBox.setY(515);
+            this.blockPosition = 4;
+        }
+        else if (this.down.isDown && this.blockPosition == 2) {
+            this.selectionBox.setY(450);
+            this.blockPosition = 3;
+        }
+        else if (this.down.isDown && this.blockPosition == 1) {
+            this.selectionBox.setY(385);
+            this.blockPosition = 2;
+        } 
+        else if (this.up.isDown && this.blockPosition == 1) {
+            this.selectionBox.setY(515);
+            this.blockPosition = 4;
+        }
+        else if (this.up.isDown && this.blockPosition == 2) {
+            this.selectionBox.setY(320);
+            this.blockPosition = 1;
+        }
+        else if (this.up.isDown && this.blockPosition == 3) {
+            this.selectionBox.setY(385);
+            this.blockPosition = 2;
+        }
+        else if (this.up.isDown && this.blockPosition == 4) {
+            this.selectionBox.setY(450);
+            this.blockPosition = 3;
+        }
+
+        if (this.enter.isDown) {
+            if (this.blockPosition == 1) {
+                this.musicMenu.stop();
+                this.blockPosition = 1
+                this.scene.start('TutorialScene', {
+                    musicMenu: this.musicMenu
+                })
+            }
+            else if (this.blockPosition == 2) {
+                this.musicMenu.stop();
+                this.blockPosition = 1
+                this.scene.stop("MenuScene")
+                this.scene.start('SelectCharacterScene', {
+                    musicMenu: this.musicMenu,
+                    leaderboard: this.leaderboard,
+                    musicLevel1: this.musicLevel1,
+                    musicLevel2: this.musicLevel2,
+                    musicLevel3: this.musicLevel3,
+                    musicLevel4: this.musicLevel4,
+                    previewLevel1: this.previewLevel1,
+                    previewLevel2: this.previewLevel2,
+                    previewLevel3: this.previewLevel3,
+                    previewLevel4: this.previewLevel4,
+                    errorSFX: this.errorSFX
+                })
+            }
+            else if (this.blockPosition == 3) {
+                this.musicMenu.stop();
+                this.blockPosition = 1
+                this.scene.start('ScoreBoardScene', {
+                    leaderboard: this.leaderboard,
+                    musicMenu: this.musicMenu
+                })
+            }
+            else if (this.blockPosition == 4) {
+                this.musicMenu.stop();
+                this.blockPosition = 1
+                this.scene.start('CreditsScene', {
+                    musicMenu: this.musicMenu
+                })
+            }
+        }
     }
 
 }

@@ -35,6 +35,11 @@ export default class Level4Scene extends Phaser.Scene {
     private _fallIconGroup: Icons
     private _winterIconGroup: Icons
 
+    private springTimeArray: number[]
+    private summerTimeArray: number[]
+    private fallTimeArray: number[]
+    private winterTimeArray: number[]
+
 
     constructor() {
         super({ key: "Level4Scene" });
@@ -68,6 +73,7 @@ export default class Level4Scene extends Phaser.Scene {
         this.add.image(400, 300, 'backgroundLevel4').setScale(0.7);
 
         this._score = new Score(this, 16, 16).setDepth(1);
+        this._score.setColor('#fff')
 
         this._player = new Players(this, 100, 580, this.playerName).setDepth(1);
         this._player.setTexture(this.playerName)
@@ -82,24 +88,27 @@ export default class Level4Scene extends Phaser.Scene {
             this.scene.start('MenuScene')
         }, this);
 
-        this._springIconGroup = new Icons(this, this._score, this.A, 40)
-        this._springIconGroup.handleIconFalling(15000, 200, -30, 'springIcon', 16);
+        this.springTimeArray =  [12, 22, 32, 33, 69, 71, 82, 91, 93, 95, 140, 143,185, 180,184, 187, 189]
+        this._springIconGroup = new Icons(this, this._score, this.A, 40, 200, -30, 'springIcon')
+        this._springIconGroup.handleIconFalling(this.springTimeArray)
         this._springIconGroup.handlePlayerOverlap(this._player)
         this._springIconGroup.handlePlatformOverlap(this._platform)
 
-        this._summerIconGroup = new Icons(this, this._score, this.S, 40)
-        this._summerIconGroup.handleIconFalling(23000, 340, -30, 'summerIcon', 15)
+        this.summerTimeArray = [15, 24, 42, 52, 56, 64, 66, 73, 75, 77, 79, 84, 88, 106, 108, 110, 112, 114, 117, 119, 123, 125, 128, 130,  145, 147, 149, 152, 154, 158, 160, 162, 164, 166, 168, 170, 172, 182,  182]
+        this._summerIconGroup = new Icons(this, this._score, this.S, 40, 340, -30, 'summerIcon')
+        this._summerIconGroup.handleIconFalling(this.summerTimeArray)
         this._summerIconGroup.handlePlayerOverlap(this._player)
         this._summerIconGroup.handlePlatformOverlap(this._platform)
 
-        this._fallIconGroup = new Icons(this, this._score, this.D, 40)
-        this._fallIconGroup.handleIconFalling(31000, 470, -30, 'fallIcon', 17)
+        this.fallTimeArray = [17, 27, 28, 36, 39, 44, 49, 65, 69, 72, 76, 80, 85, 89, 94, 102, 107, 111, 115, 120, 124, 129, 137, 141, 146, 150, 155, 159, 163, 172, 176, 181, 185, 190]
+        this._fallIconGroup = new Icons(this, this._score, this.D, 40, 470, -30, 'fallIcon')
+        this._fallIconGroup.handleIconFalling(this.fallTimeArray)
         this._fallIconGroup.handlePlayerOverlap(this._player)
         this._fallIconGroup.handlePlatformOverlap(this._platform)
 
-        this._winterIconGroup = new Icons(this, this._score, this.F, 40)
-        this._winterIconGroup.create(600, -30, 'winterIcon').setScale(0.15).setGravityY(40)
-        this._winterIconGroup.handleIconFalling(6545, 600, -30, 'winterIcon', 40)
+        this.winterTimeArray = [10, 19, 29, 38, 41, 43, 46, 48, 50, 58, 63, 67, 70, 74, 78, 83, 87, 90, 98, 100, 104, 109, 113, 118, 121, 127, 133, 135, 139, 144, 148, 153, 157, 161, 168, 170, 174, 179, 183, 188, 192, 197, 202]
+        this._winterIconGroup = new Icons(this, this._score, this.F, 40, 600, -30, 'winterIcon')
+        this._winterIconGroup.handleIconFalling(this.winterTimeArray)
         this._winterIconGroup.handlePlayerOverlap(this._player)
         this._winterIconGroup.handlePlatformOverlap(this._platform)
 
