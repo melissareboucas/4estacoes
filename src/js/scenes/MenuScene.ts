@@ -54,6 +54,8 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     public create() {
+        console.log("projectId: ",process.env.PROJECT_ID)
+
         this.blockPosition = 1;
 
         this.musicLevel1.stop();
