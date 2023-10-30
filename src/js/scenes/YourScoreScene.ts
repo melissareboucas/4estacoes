@@ -3,10 +3,10 @@ import Score from "../gameObjects/Score";
 import WebFontFile from "../inputs/WebfontFile";
 
 import { v4 as uuidv4 } from 'uuid';
+import { firebase } from "./MenuScene";
 
 
-
-
+/*
 declare const firebase: any
 var firebaseConfig = {
   apiKey: process.env.API_KEY as string,
@@ -18,7 +18,7 @@ var firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig)*/
 
 export default class YourScoreScene extends Phaser.Scene {
 

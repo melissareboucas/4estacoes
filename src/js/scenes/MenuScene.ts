@@ -1,6 +1,20 @@
 import WebFontFile from "../inputs/WebfontFile";
 import { LeaderBoard } from 'phaser3-rex-plugins/plugins/firebase-components'
 
+
+declare const firebase: any
+var firebaseConfig = {
+  apiKey: process.env.API_KEY as string,
+  authDomain: process.env.AUTH_DOMAIN as string,
+  projectId: process.env.PROJECT_ID as string,
+  storageBucket: process.env.STORAGE_BUCKET as string,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID as string,
+  appId: process.env.APP_ID as string
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
+export {firebase}
+
 export default class MenuScene extends Phaser.Scene {
 
     private leaderboard: any
