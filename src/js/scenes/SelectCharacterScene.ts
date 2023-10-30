@@ -18,6 +18,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
     right: Phaser.Input.Keyboard.Key;
     left: Phaser.Input.Keyboard.Key;
     enter: Phaser.Input.Keyboard.Key;
+ 
 
     private selectedPlayerName: string
 

@@ -8,19 +8,30 @@ export default class TutorialScene extends Phaser.Scene {
   private upTriangle!: Phaser.GameObjects.Image
 
   private description!: Phaser.GameObjects.Text
+  private textTutorialpart1!: string
+  private textTutorialpart2!: string
+
+  up: Phaser.Input.Keyboard.Key;
+  down: Phaser.Input.Keyboard.Key;
+  esc: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super({ key: "TutorialScene" });
   }
 
-  init(data){
-    this.musicMenu= data.musicMenu
+  init(data) {
+    this.musicMenu = data.musicMenu
   }
 
   public preload() {
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
+
+    //keys
+    this.up = this.input.keyboard.addKey('UP')
+    this.down = this.input.keyboard.addKey('DOWN')
+    this.esc = this.input.keyboard.addKey('ESC')
   }
 
   public create() {
@@ -52,7 +63,7 @@ export default class TutorialScene extends Phaser.Scene {
       lineSpacing: 5
     };
 
-    const textTutorialpart1 = `Olá! O grupo Sandy&Junior está em uma nova turnê '4Estações' tocando seus maiores sucessos! Ajude-os a tocar cada música de cada estação!
+    this.textTutorialpart1 = `Olá! O grupo Sandy&Junior está em uma nova turnê '4Estações' tocando seus maiores sucessos! Ajude-os a tocar cada música de cada estação!
     
     Objetivo do Jogo: Tocar as músicas em sincronia com o ritmo enquanto se movimenta pelo cenário. Acerte a batida da música sempre que apertar o comando certo no tempo exato.
 
@@ -65,7 +76,7 @@ export default class TutorialScene extends Phaser.Scene {
     Tecla D: Aperte para acertar o ícone do Outono.
     Tecla F: Aperte para acertar o ícone do Inverno.`
 
-    const textTutorialpart2 = `Instruções: No Menu, clique em "Iniciar". Na tela de personagem escolha com quem deseja jogar (Sandy ou Junior) e, em seguida, selecione a estação do ano.
+    this.textTutorialpart2 = `Instruções: No Menu, clique em "Iniciar". Na tela de personagem escolha com quem deseja jogar (Sandy ou Junior) e, em seguida, selecione a estação do ano.
 
    À medida que você se movimenta pelo cenário, diferentes ícones das estações aparecerão. Quando os ícones estiverem perto da sua personagem, pressione a tecla correspondente.
     
@@ -77,26 +88,41 @@ export default class TutorialScene extends Phaser.Scene {
 
     Fim do Jogo: O jogo termina quando você completa a fase ou erra muitas notas.`
 
-    this.description = this.add.text(400, 200, textTutorialpart1, textStyle).setOrigin(0.5, 0);
+    this.description = this.add.text(400, 200, this.textTutorialpart1, textStyle).setOrigin(0.5, 0);
 
     this.downTriangle.setInteractive();
     this.downTriangle.on('pointerdown', function () {
       this.upTriangle.setVisible(true)
       this.downTriangle.setVisible(false)
-      this.description.setText(textTutorialpart2)
+      this.description.setText(this.textTutorialpart2)
     }, this);
 
     this.upTriangle.setInteractive();
     this.upTriangle.on('pointerdown', function () {
       this.upTriangle.setVisible(false)
       this.downTriangle.setVisible(true)
-      this.description.setText(textTutorialpart1)
+      this.description.setText(this.textTutorialpart1)
     }, this);
 
   }
 
   public update() {
+    if (this.esc.isDown) {
+      this.musicMenu.stop();
+      this.scene.start('MenuScene')
+    }
 
+    if (this.up.isDown) {
+      this.upTriangle.setVisible(false)
+      this.downTriangle.setVisible(true)
+      this.description.setText(this.textTutorialpart1)
+    }
+
+    if (this.down.isDown) {
+      this.upTriangle.setVisible(true)
+      this.downTriangle.setVisible(false)
+      this.description.setText(this.textTutorialpart2)
+    }
   }
 
 }

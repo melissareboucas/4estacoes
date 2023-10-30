@@ -129,40 +129,49 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     public update() {
-
+        
         
         if (this.down.isDown && this.blockPosition == 4) {
             this.selectionBox.setY(320);
+            this.time.addEvent({delay:500, callback: this.setBlockPosition1, callbackScope: this, loop: false});
             this.blockPosition = 1;
         }
         else if (this.down.isDown && this.blockPosition == 3) {
             this.selectionBox.setY(515);
+            this.time.addEvent({delay:500, callback: this.setBlockPosition4, callbackScope: this, loop: false});
             this.blockPosition = 4;
         }
         else if (this.down.isDown && this.blockPosition == 2) {
             this.selectionBox.setY(450);
-            this.blockPosition = 3;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition3, callbackScope: this, loop: false});
+
         }
         else if (this.down.isDown && this.blockPosition == 1) {
             this.selectionBox.setY(385);
-            this.blockPosition = 2;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition2, callbackScope: this, loop: false});
+
         } 
         else if (this.up.isDown && this.blockPosition == 1) {
             this.selectionBox.setY(515);
-            this.blockPosition = 4;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition4, callbackScope: this, loop: false});
+
         }
         else if (this.up.isDown && this.blockPosition == 2) {
             this.selectionBox.setY(320);
-            this.blockPosition = 1;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition1, callbackScope: this, loop: false});
+
         }
         else if (this.up.isDown && this.blockPosition == 3) {
             this.selectionBox.setY(385);
-            this.blockPosition = 2;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition2, callbackScope: this, loop: false});
+
         }
         else if (this.up.isDown && this.blockPosition == 4) {
             this.selectionBox.setY(450);
-            this.blockPosition = 3;
+            this.time.addEvent({delay:500, callback: this.setBlockPosition3, callbackScope: this, loop: false});
+
         }
+        
 
         if (this.enter.isDown) {
             if (this.blockPosition == 1) {
@@ -206,6 +215,21 @@ export default class MenuScene extends Phaser.Scene {
                 })
             }
         }
+    }
+    public setBlockPosition1(){
+        this.blockPosition = 1;
+    }
+
+    public setBlockPosition2(){
+        this.blockPosition = 2;
+    }
+
+    public setBlockPosition3(){
+        this.blockPosition = 3;
+    }
+
+    public setBlockPosition4(){
+        this.blockPosition = 4;
     }
 
 }
