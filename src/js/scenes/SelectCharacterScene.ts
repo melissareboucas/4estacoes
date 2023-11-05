@@ -17,7 +17,10 @@ export default class SelectCharacterScene extends Phaser.Scene {
 
     right: Phaser.Input.Keyboard.Key;
     left: Phaser.Input.Keyboard.Key;
+    down: Phaser.Input.Keyboard.Key;
+    up: Phaser.Input.Keyboard.Key;
     enter: Phaser.Input.Keyboard.Key;
+    esc: Phaser.Input.Keyboard.Key;
  
 
     private selectedPlayerName: string
@@ -64,7 +67,10 @@ export default class SelectCharacterScene extends Phaser.Scene {
         //keys
         this.right = this.input.keyboard.addKey('RIGHT')
         this.left = this.input.keyboard.addKey('LEFT')
+        this.down = this.input.keyboard.addKey('DOWN')
+        this.up = this.input.keyboard.addKey('UP')
         this.enter = this.input.keyboard.addKey('ENTER')
+        this.esc = this.input.keyboard.addKey('ESC')
     }
 
     public create() {
@@ -141,7 +147,7 @@ export default class SelectCharacterScene extends Phaser.Scene {
             this.juniorDescription.setVisible(false);
         }, this);
 
-        this.add.text(240, 520, "Clique para ver a descrição", { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' });
+        this.add.text(110, 520, "Clique (ou pressione down/up) para ver a descrição", { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' });
         this.add.text(220, 540, "Pressione Enter para selecionar", { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' });
 
         this.block = this.add.image(180, 340, 'block')
@@ -168,6 +174,43 @@ export default class SelectCharacterScene extends Phaser.Scene {
 
         }
 
+        if (this.down.isDown && this.blockPosition == 0) {
+            this.block.setX(180);
+            this.blockPosition = 0;
+            this.junior.setVisible(false);
+            this.whiteBox.setVisible(true);
+            this.whiteBox.setX(620)
+            this.xVector.setVisible(true);
+            this.xVector.setX(590)
+            this.bottleText.setVisible(true);
+            this.bottleText.setX(610)
+            this.sandyDescription.setVisible(true)
+            this.juniorDescription.setVisible(false)
+        }
+        else if (this.down.isDown && this.blockPosition == 1) {
+            this.block.setX(620);
+            this.blockPosition = 1;
+            this.sandy.setVisible(false);
+            this.whiteBox.setVisible(true);
+            this.whiteBox.setX(180)
+            this.xVector.setVisible(true);
+            this.xVector.setX(150)
+            this.bottleText.setVisible(true);
+            this.bottleText.setX(170)
+            this.sandyDescription.setVisible(false)
+            this.juniorDescription.setVisible(true)
+        }
+
+        if (this.up.isDown) {
+            this.sandy.setVisible(true);
+            this.junior.setVisible(true);
+            this.whiteBox.setVisible(false);
+            this.xVector.setVisible(false);
+            this.bottleText.setVisible(false);
+            this.sandyDescription.setVisible(false);
+            this.juniorDescription.setVisible(false);
+        }
+
         if (this.enter.isDown) {
             if (this.blockPosition == 0) {
                 this.selectedPlayerName = 'sandy'
@@ -190,6 +233,12 @@ export default class SelectCharacterScene extends Phaser.Scene {
                 previewLevel4: this.previewLevel4,
                 errorSFX: this.errorSFX
             });
+        }
+
+        if (this.esc.isDown){
+            this.musicMenu.stop();
+            this.scene.stop("SelectCharacterScene")
+            this.scene.start('MenuScene')
         }
 
     }

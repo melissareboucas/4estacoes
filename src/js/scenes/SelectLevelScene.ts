@@ -21,6 +21,7 @@ export default class SelectLevelScene extends Phaser.Scene {
   up: Phaser.Input.Keyboard.Key;
   down: Phaser.Input.Keyboard.Key;
   enter: Phaser.Input.Keyboard.Key;
+  esc: Phaser.Input.Keyboard.Key;
 
   private playerName: string
 
@@ -66,6 +67,7 @@ export default class SelectLevelScene extends Phaser.Scene {
     this.up = this.input.keyboard.addKey('UP')
     this.down = this.input.keyboard.addKey('DOWN')
     this.enter = this.input.keyboard.addKey('ENTER')
+    this.esc = this.input.keyboard.addKey('ESC')
 
     this.aux = 0
   }
@@ -265,6 +267,16 @@ export default class SelectLevelScene extends Phaser.Scene {
         });
       }
     }
+
+    if (this.esc.isDown){
+      this.previewLevel1.stop();
+      this.previewLevel2.stop();
+      this.previewLevel3.stop();
+      this.previewLevel4.stop();
+      this.scene.stop("SelectLevelScene")
+      this.scene.start('SelectCharacterScene')
+    }
+
 
     if (this.blockPosition == 1) {
       this.handlePreviewLevel1();

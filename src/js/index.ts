@@ -13,12 +13,14 @@ import Level4Scene from "./scenes/Level4Scene";
 import YourScoreScene from "./scenes/YourScoreScene";
 import GameOverScene from "./scenes/GameOverScene";
 
-
-
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: 800,
+    height: 600,
+  },
   physics: {
     default: "arcade",
     arcade: {
@@ -29,13 +31,13 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   scene: [
-    LoaderScene, 
-    MenuScene, 
-    TutorialScene, 
-    SelectCharacterScene, 
-    SelectLevelScene, 
-    ScoreBoardScene, 
-    CreditsScene, 
+    LoaderScene,
+    MenuScene,
+    TutorialScene,
+    SelectCharacterScene,
+    SelectLevelScene,
+    ScoreBoardScene,
+    CreditsScene,
     Level1Scene,
     Level2Scene,
     Level3Scene,

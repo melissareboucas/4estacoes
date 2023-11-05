@@ -7,6 +7,8 @@ export default class ScoreBoardScene extends Phaser.Scene {
 
   private musicMenu!: Phaser.Sound.BaseSound
 
+  esc: Phaser.Input.Keyboard.Key;
+
   constructor() {
     super({ key: "ScoreBoardScene" });
 
@@ -18,11 +20,12 @@ export default class ScoreBoardScene extends Phaser.Scene {
   }
 
   public preload() {
-
-
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
+
+    //keys
+    this.esc = this.input.keyboard.addKey('ESC')
   }
 
   public async create() {
@@ -49,20 +52,20 @@ export default class ScoreBoardScene extends Phaser.Scene {
       scores.sort((a, b) => b.score - a.score);
 
       let y = 350
-  
+
       //top 5 score
       for (let i = 0; i < 5; ++i) {
-  
+
         if (i < scores.length) {
           const scoreItem = scores[i]
-  
+
           this.add.text(100, y, (i + 1) + '. ' + scoreItem.userName, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
           this.add.text(330, y, scoreItem.score.toString(), { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
           this.add.text(560, y, scoreItem.level, { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
         }
-  
+
         y = y + 50
-  
+
       }
     } else {
       this.add.text(200, 400, "Seja o primeiro a jogar!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
@@ -71,7 +74,10 @@ export default class ScoreBoardScene extends Phaser.Scene {
   }
 
   public update() {
-
+    if (this.esc.isDown){
+      this.musicMenu.stop();
+      this.scene.start('MenuScene')
+    }
   }
 
 }

@@ -149,42 +149,42 @@ export default class MenuScene extends Phaser.Scene {
         
         if (this.down.isDown && this.blockPosition == 4) {
             this.selectionBox.setY(320);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition1, callbackScope: this, loop: false});
-            this.blockPosition = 1;
+            this.time.addEvent({delay:200, callback: this.setBlockPosition1, callbackScope: this, loop: false});
+            
         }
         else if (this.down.isDown && this.blockPosition == 3) {
             this.selectionBox.setY(515);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition4, callbackScope: this, loop: false});
-            this.blockPosition = 4;
+            this.time.addEvent({delay:200, callback: this.setBlockPosition4, callbackScope: this, loop: false});
+            
         }
         else if (this.down.isDown && this.blockPosition == 2) {
             this.selectionBox.setY(450);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition3, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition3, callbackScope: this, loop: false});
 
         }
         else if (this.down.isDown && this.blockPosition == 1) {
             this.selectionBox.setY(385);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition2, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition2, callbackScope: this, loop: false});
 
         } 
         else if (this.up.isDown && this.blockPosition == 1) {
             this.selectionBox.setY(515);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition4, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition4, callbackScope: this, loop: false});
 
         }
         else if (this.up.isDown && this.blockPosition == 2) {
             this.selectionBox.setY(320);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition1, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition1, callbackScope: this, loop: false});
 
         }
         else if (this.up.isDown && this.blockPosition == 3) {
             this.selectionBox.setY(385);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition2, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition2, callbackScope: this, loop: false});
 
         }
         else if (this.up.isDown && this.blockPosition == 4) {
             this.selectionBox.setY(450);
-            this.time.addEvent({delay:500, callback: this.setBlockPosition3, callbackScope: this, loop: false});
+            this.time.addEvent({delay:200, callback: this.setBlockPosition3, callbackScope: this, loop: false});
 
         }
         

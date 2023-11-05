@@ -4,12 +4,14 @@ export default class CreditsScene extends Phaser.Scene {
 
   private musicMenu!: Phaser.Sound.BaseSound
 
+  esc: Phaser.Input.Keyboard.Key;
+
   constructor() {
     super({ key: "CreditsScene" });
 
   }
 
-  init(data){
+  init(data) {
     this.musicMenu = data.musicMenu
   }
 
@@ -17,6 +19,9 @@ export default class CreditsScene extends Phaser.Scene {
     //font
     const fonts = new WebFontFile(this.load, 'Press Start 2P');
     this.load.addFile(fonts)
+
+    //keys
+    this.esc = this.input.keyboard.addKey('ESC')
   }
 
   public create() {
@@ -59,7 +64,10 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   public update() {
-
+    if (this.esc.isDown){
+      this.musicMenu.stop();
+      this.scene.start('MenuScene')
+    }
   }
 
 }
