@@ -1,6 +1,6 @@
 # `<4Estações>`
 
-* Link do jogo: [https://4estacoes.vercel.app/](https://4estacoes.vercel.app/)
+* Link do jogo: [https://4estacoesgame.vercel.app/](https://4estacoesgame.vercel.app/)
 
 ## Motivação
 
