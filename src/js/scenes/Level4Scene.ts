@@ -146,9 +146,8 @@ export default class Level4Scene extends Phaser.Scene {
         else {
             this._player.setState("turn")
         }
-
-        //simulate gameover - voltar para 25 
-        if (this._score.getGameOverScore() >= 0) {
+        
+        if (this._score.getGameOverScore() >= 25) {
             this.musicLevel4.stop();
             this.scene.start('GameOverScene', {
                 score: this._score,

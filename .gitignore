@@ -3,3 +3,4 @@
 .prettierrc
 .DS_Store
 .env
+.vercel
