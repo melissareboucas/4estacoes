@@ -97,3 +97,11 @@ Para visualizar localmente: http://localhost:8080/.
 ```
 npm run build
 ```
+
+## Tecnologias e Ferramentas utilizadas
+1. Phaser 3 - GameEngine;
+2. Webpack - Ferramenta de Empacotamento;
+3. JavaScript - Linguagem de programação fundamental;
+4. TypeScript - Linguagem de programação atuando como superset do JavaScript;
+5. Firebase - Banco de Dados para armazenar o ranking;
+6. Vercel - Plataforma de Hospedagem e Implantação.
