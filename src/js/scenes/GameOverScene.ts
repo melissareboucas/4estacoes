@@ -50,11 +50,29 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   public update() {
+
+    this.checkGamepads();
     if (this.enter.isDown) {
-      this.musicMenu.stop();
-      this.scene.start("MenuScene");
+      this.handleEnter();
     }
 
+  }
+
+  public checkGamepads() {
+    const gamepads = navigator.getGamepads();
+
+    for (const gamepad of gamepads) {
+      if (gamepad) {
+        if (gamepad.buttons[0].pressed) {
+          this.handleEnter();
+        }
+      }
+    }
+  }
+
+  public handleEnter(){
+    this.musicMenu.stop();
+    this.scene.start("MenuScene");
   }
 
 }

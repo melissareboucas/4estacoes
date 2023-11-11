@@ -39,8 +39,7 @@ export default class ScoreBoardScene extends Phaser.Scene {
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.musicMenu.stop();
-      this.scene.start('MenuScene')
+      this.handleBack();
     }, this);
 
     this.add.text(100, 280, 'NOME', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' })
@@ -74,10 +73,28 @@ export default class ScoreBoardScene extends Phaser.Scene {
   }
 
   public update() {
-    if (this.esc.isDown){
-      this.musicMenu.stop();
-      this.scene.start('MenuScene')
+    this.checkGamepads();
+
+    if (this.esc.isDown) {
+      this.handleBack();
     }
+  }
+
+  public checkGamepads() {
+    const gamepads = navigator.getGamepads();
+
+    for (const gamepad of gamepads) {
+      if (gamepad) {
+        if (gamepad.buttons[1].pressed) {
+          this.handleBack();
+        }
+      }
+    }
+  }
+
+  public handleBack(){
+    this.musicMenu.stop();
+    this.scene.start('MenuScene')
   }
 
 }

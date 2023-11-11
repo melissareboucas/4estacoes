@@ -54,14 +54,14 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
     public handleIconFalling(times: number[]) {
         times.forEach((time) => {
             this.scene.time.addEvent({
-                delay: time*1000-6000,
+                delay: time * 1000 - 6000,
                 callback: this.handleEvent, // Your event handler function
                 callbackScope: this,
             });
         });
     }
 
-    handleEvent(){
+    public handleEvent() {
         const image = this.addImage(this.x, this.y, this.textureKey);
         // Apply gravity to the image
         image.setGravityY(this.gravity); //
@@ -93,9 +93,15 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
             this.precision = 50
             return true
         } else {
-            this.precision = 0
-            return false
+            if(this.checkGamepads(distanceX, distanceY)){
+                return true
+            } else {
+                this.precision = 0
+                return false
+            }
+            
         }
+        
     }
 
     public handlePlatformOverlap(platform: Platform) {
@@ -109,6 +115,90 @@ export default class Icons extends Phaser.Physics.Arcade.Group {
         this.getFirstAlive().destroy();
     }
 
+    
+    public checkGamepads(distanceX: number, distanceY: number) {
+        const gamepads = navigator.getGamepads();
+
+        for (const gamepad of gamepads) {
+            if (gamepad) {
+                if (gamepad.buttons[4].pressed) {
+                    //l1
+                    if (this.textureKey == 'summerIcon') {
+                        if (distanceX <= 6 && distanceY >= 16 && distanceY <= 34) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 100
+                            return true
+                        } else if (distanceX <= 24 && distanceY >= 5 && distanceY <= 55) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 50
+                            return true
+                        } else {
+                            this.precision = 0
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                } else if (gamepad.buttons[5].pressed) {
+                    //r1
+                    if (this.textureKey == 'fallIcon') {
+                        if (distanceX <= 6 && distanceY >= 16 && distanceY <= 34) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 100
+                            return true
+                        } else if (distanceX <= 24 && distanceY >= 5 && distanceY <= 55) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 50
+                            return true
+                        } else {
+                            this.precision = 0
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                } else if (gamepad.buttons[6].pressed) {
+                    //l2
+                    if (this.textureKey == 'springIcon') {
+                        if (distanceX <= 6 && distanceY >= 16 && distanceY <= 34) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 100
+                            return true
+                        } else if (distanceX <= 24 && distanceY >= 5 && distanceY <= 55) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 50
+                            return true
+                        } else {
+                            this.precision = 0
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                } else if (gamepad.buttons[7].pressed) {
+                    //r2
+                    if (this.textureKey == 'winterIcon') {
+                        if (distanceX <= 6 && distanceY >= 16 && distanceY <= 34) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 100
+                            return true
+                        } else if (distanceX <= 24 && distanceY >= 5 && distanceY <= 55) {
+                            this.getFirstAlive().destroy();
+                            this.precision = 50
+                            return true
+                        } else {
+                            this.precision = 0
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                }
+            }
+        }
+    }
+
+ 
 
 
 

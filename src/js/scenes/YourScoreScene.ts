@@ -3,22 +3,18 @@ import Score from "../gameObjects/Score";
 import WebFontFile from "../inputs/WebfontFile";
 
 import { v4 as uuidv4 } from 'uuid';
-import { firebase } from "./MenuScene";
 
-
-/*
 declare const firebase: any
 var firebaseConfig = {
-  apiKey: process.env.API_KEY as string,
-  authDomain: process.env.AUTH_DOMAIN as string,
-  projectId: process.env.PROJECT_ID as string,
-  storageBucket: process.env.STORAGE_BUCKET as string,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID as string,
-  appId: process.env.APP_ID as string
+    apiKey: process.env.API_KEY as string,
+    authDomain: process.env.AUTH_DOMAIN as string,
+    projectId: process.env.PROJECT_ID as string,
+    storageBucket: process.env.STORAGE_BUCKET as string,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID as string,
+    appId: process.env.APP_ID as string
 };
-
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig)*/
+firebase.initializeApp(firebaseConfig)
 
 export default class YourScoreScene extends Phaser.Scene {
 
@@ -33,9 +29,24 @@ export default class YourScoreScene extends Phaser.Scene {
 
   private aux: number
 
+  private userInputPosition1!: Phaser.GameObjects.Text
+  private userInputPosition2!: Phaser.GameObjects.Text
+  private userInputPosition3!: Phaser.GameObjects.Text
+
+  private testFinish!: Phaser.GameObjects.Text
+
+  private padDownActionExecuted = false;
+  private padUpActionExecuted = false;
+  private padEnterDownActionExecuted = false;
+
+  private counter = 0
+  private finish: number;
+  private alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
 
   constructor() {
     super({ key: "YourScoreScene" });
+    this.finish = 0;
   }
 
   init(data) {
@@ -44,7 +55,6 @@ export default class YourScoreScene extends Phaser.Scene {
     this.leaderboard = data.leaderboard
     this.musicMenu = data.musicMenu
   }
-
 
   public preload() {
     //font
@@ -58,6 +68,10 @@ export default class YourScoreScene extends Phaser.Scene {
     this.musicMenu.play();
 
     this.add.image(400, 300, 'bg_menu');
+
+    this.userInputPosition1 = this.add.text(350, 450, '', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' }).setVisible(false)
+    this.userInputPosition2 = this.add.text(375, 450, '', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' }).setVisible(false)
+    this.userInputPosition3 = this.add.text(400, 450, '', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' }).setVisible(false)
 
     const scores = await this.leaderboard.loadFirstPage()
     if (scores.length >= 5) {
@@ -113,10 +127,12 @@ export default class YourScoreScene extends Phaser.Scene {
       });
     }
 
+
   }
 
-  collectUserName() {
+  public collectUserName() {
     const userInput = this.add.text(350, 450, '', { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' });
+
 
     this.input.keyboard.on('keydown', (event) => { // Use an arrow function
       if (event.key === 'Enter' && userInput.text.length > 0) {
@@ -131,9 +147,8 @@ export default class YourScoreScene extends Phaser.Scene {
     });
   }
 
-
-  handleDatabaseInsert() {
-
+  public handleDatabaseInsert() {
+    
     this.aux = 1;
 
     const db = firebase.firestore();
@@ -163,26 +178,176 @@ export default class YourScoreScene extends Phaser.Scene {
     });
   }
 
-  displayNewRecordTexts() {
+  public displayNewRecordTexts() {
     this.add.image(275, 60, 'titleYourScore').setOrigin(0)
 
     this.add.image(70, 200, 'scoreBlock').setOrigin(0)
 
-    this.add.text(375, 260, this._score.getScore().toString(), { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' });
+    this.add.text(390, 270, this._score.getScore().toString(), { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' }).setOrigin(0.5);
 
     this.add.text(190, 540, "Pressione Enter para seguir", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' });
     this.add.text(290, 220, "Novo recorde!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' });
 
     this.add.text(160, 350, "Parabéns por entrar no TOP 5!", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
     this.add.text(280, 390, "Digite seu nome:", { fontFamily: '"Press Start 2P"', fontSize: '16px', color: '#000000' })
-    //this.add.text(350, 450, "MEL", { fontFamily: '"Press Start 2P"' ,fontSize: '24px', color: '#000000' })
     this.add.text(350, 460, "___", { fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#000000' })
   }
 
-
-
   public update() {
+
+    if (this.checkGamepadsExists()) {
+      this.checkGamepads();
+    }
+
 
   }
 
+  public checkGamepadsExists() {
+    const gamepads = navigator.getGamepads();
+
+    if (gamepads[0] != null) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  public checkGamepads() {
+    const gamepads = navigator.getGamepads();
+
+    this.userInputPosition1.setVisible(true)
+    this.userInputPosition2.setVisible(true)
+    this.userInputPosition3.setVisible(true)
+
+
+    for (const gamepad of gamepads) {
+      if (gamepad) {
+        if (gamepad.buttons[0].pressed) {
+          if (!this.padEnterDownActionExecuted) {
+
+            if (this.aux == 5) {
+              this.musicMenu.stop();
+              this.scene.start("MenuScene");
+            }
+
+            this.counter = 0;
+            if (this.finish == 0) {
+              this.finish = 1;
+
+            } else if (this.finish == 1) {
+              this.finish = 2;
+            } else if (this.finish == 2) {
+              this.userName = this.userInputPosition1.text + this.userInputPosition2.text + this.userInputPosition3.text;
+              this.handleDatabaseInsert();
+            }
+
+            this.padEnterDownActionExecuted = true;
+          }
+        } else {
+          this.padEnterDownActionExecuted = false
+        }
+
+        if (gamepad.buttons[12].pressed) {
+          //up
+          if (!this.padUpActionExecuted) {
+            if (this.finish == 0) {
+              if (this.userInputPosition1.text.length > 0) {
+                this.userInputPosition1.text = this.userInputPosition1.text.slice(0, -1);
+              }
+              this.userInputPosition1.text = this.alphabet[this.counter]
+              if (this.counter == 0) {
+                this.counter = this.alphabet.length;
+              } else {
+                this.counter--
+              }
+
+            } else if (this.finish == 1) {
+              if (this.userInputPosition2.text.length > 0) {
+                this.userInputPosition2.text = this.userInputPosition2.text.slice(0, -2);
+              }
+              this.userInputPosition2.text = this.alphabet[this.counter]
+              if (this.counter == 0) {
+                this.counter = this.alphabet.length;
+              } else {
+                this.counter--
+              }
+
+            } else if (this.finish == 2) {
+              if (this.userInputPosition3.text.length > 0) {
+                this.userInputPosition3.text = this.userInputPosition3.text.slice(0, -1);
+              }
+              this.userInputPosition3.text = this.alphabet[this.counter]
+              if (this.counter == 0) {
+                this.counter = this.alphabet.length;
+              } else {
+                this.counter--
+              }
+
+            }
+
+            this.padUpActionExecuted = true;
+          }
+        } else {
+          this.padUpActionExecuted = false
+        }
+
+        if (gamepad.buttons[13].pressed) {
+          //down
+          if (!this.padDownActionExecuted) {
+            if (this.finish == 0) {
+              if (this.userInputPosition1.text.length > 0) {
+                this.userInputPosition1.text = this.userInputPosition1.text.slice(0, -1);
+              }
+              this.userInputPosition1.text = this.alphabet[this.counter]
+              if (this.counter == this.alphabet.length) {
+                this.counter = 0;
+              } else {
+                this.counter++
+              }
+
+            } else if (this.finish == 1) {
+              if (this.userInputPosition2.text.length > 0) {
+                this.userInputPosition2.text = this.userInputPosition2.text.slice(0, -2);
+              }
+              this.userInputPosition2.text = this.alphabet[this.counter]
+              if (this.counter == this.alphabet.length) {
+                this.counter = 0;
+              } else {
+                this.counter++
+              }
+
+            } else if (this.finish == 2) {
+              if (this.userInputPosition3.text.length > 0) {
+                this.userInputPosition3.text = this.userInputPosition3.text.slice(0, -1);
+              }
+              this.userInputPosition3.text = this.alphabet[this.counter]
+              if (this.counter == this.alphabet.length) {
+                this.counter = 0;
+              } else {
+                this.counter++
+              }
+
+            }
+
+            this.padDownActionExecuted = true;
+          }
+        } else {
+          this.padDownActionExecuted = false
+        }
+
+      }
+    }
+
+  }
+  
+
+
+
+
+
 }
+
+
+
+
+

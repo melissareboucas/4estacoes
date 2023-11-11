@@ -39,10 +39,9 @@ export default class Level1Scene extends Phaser.Scene {
     private fallTimeArray: number[]
     private winterTimeArray: number[]
 
-
     constructor() {
         super({ key: "Level1Scene" });
-
+        
     }
 
     init(data) {
@@ -81,9 +80,7 @@ export default class Level1Scene extends Phaser.Scene {
         var backButton = this.add.image(750, 40, 'back').setScale(0.05);
         backButton.setInteractive();
         backButton.on('pointerdown', function () {
-            this.musicLevel1.stop();
-            this.scene.restart();
-            this.scene.start('MenuScene')
+            this.handleBack();
         }, this);
 
         this.springTimeArray = [14, 26, 36, 48, 54, 66, 72, 125, 137, 143, 155, 160]
@@ -104,7 +101,7 @@ export default class Level1Scene extends Phaser.Scene {
         this._fallIconGroup.handlePlayerOverlap(this._player)
         this._fallIconGroup.handlePlatformOverlap(this._platform)
 
-        this.winterTimeArray =  [65, 96, 100, 105, 112, 115, 153, 172, 184, 189, 194, 201, 208, 213, 220, 224, 229, 235]
+        this.winterTimeArray = [65, 96, 100, 105, 112, 115, 153, 172, 184, 189, 194, 201, 208, 213, 220, 224, 229, 235]
         this._winterIconGroup = new Icons(this, this._score, this.F, 10, 600, -30, 'winterIcon')
         this._winterIconGroup.handleIconFalling(this.winterTimeArray)
         this._winterIconGroup.handlePlayerOverlap(this._player)
@@ -128,21 +125,24 @@ export default class Level1Scene extends Phaser.Scene {
     }
 
     public update() {
-
-        if (this.left.isDown && this.space.isDown) {
-            this._player.setState("runningleft")
-        }
-        else if (this.left.isDown) {
-            this._player.setState("walkingleft")
-        }
-        else if (this.right.isDown && this.space.isDown) {
-            this._player.setState("runningright")
-        }
-        else if (this.right.isDown) {
-            this._player.setState("walkingright")
-        }
-        else {
-            this._player.setState("turn")
+        if (this.checkGamepadsExists()) {
+            this.checkGamepads();
+        } else {
+            if (this.left.isDown && this.space.isDown) {
+                this._player.setState("runningleft")
+            }
+            else if (this.left.isDown) {
+                this._player.setState("walkingleft")
+            }
+            else if (this.right.isDown && this.space.isDown) {
+                this._player.setState("runningright")
+            }
+            else if (this.right.isDown) {
+                this._player.setState("walkingright")
+            }
+            else {
+                this._player.setState("turn")
+            }
         }
 
         if (this._score.getGameOverScore() >= 25) {
@@ -154,11 +154,59 @@ export default class Level1Scene extends Phaser.Scene {
         }
 
         if (this.esc.isDown) {
-            this.musicLevel1.stop();
-            this.scene.restart();
-            this.scene.start('MenuScene')
+            this.handleBack();
         }
+
 
     }
 
+    public checkGamepadsExists() {
+        const gamepads = navigator.getGamepads();
+
+        if (gamepads[0] != null) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public checkGamepads() {
+        const gamepads = navigator.getGamepads();
+
+        for (const gamepad of gamepads) {
+            if (gamepad) {
+                if (gamepad.buttons[1].pressed) {
+                    this.handleBack();
+                } else if (gamepad.buttons[14].pressed) {
+                    //left
+                    if (gamepad.buttons[0].pressed) {
+                        this._player.setState("runningleft")
+                    }
+                    else {
+                        this._player.setState("walkingleft")
+                    }
+
+                } else if (gamepad.buttons[15].pressed) {
+                    //right
+                    if (gamepad.buttons[0].pressed) {
+                        this._player.setState("runningright")
+                    }
+                    else {
+                        this._player.setState("walkingright")
+                    }
+
+
+                } else {
+                    this._player.setState("turn")
+
+                }
+            }
+        }
+    }
+
+    public handleBack(){
+        this.musicLevel1.stop();
+        this.scene.restart();
+        this.scene.start('MenuScene')
+    }
 }

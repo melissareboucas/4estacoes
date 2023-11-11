@@ -83,9 +83,7 @@ export default class Level4Scene extends Phaser.Scene {
         var backButton = this.add.image(750, 40, 'back').setScale(0.05);
         backButton.setInteractive();
         backButton.on('pointerdown', function () {
-            this.musicLevel4.stop();
-            this.scene.restart();
-            this.scene.start('MenuScene')
+            this.handleBack();
         }, this);
 
         this.springTimeArray =  [12, 22, 32, 33, 69, 71, 82, 91, 93, 95, 140, 143,185, 180,184, 187, 189]
@@ -130,23 +128,26 @@ export default class Level4Scene extends Phaser.Scene {
     }
 
     public update() {
+        if (this.checkGamepadsExists()) {
+            this.checkGamepads();
+        } else {
+            if (this.left.isDown && this.space.isDown) {
+                this._player.setState("runningleft")
+            }
+            else if (this.left.isDown) {
+                this._player.setState("walkingleft")
+            }
+            else if (this.right.isDown && this.space.isDown) {
+                this._player.setState("runningright")
+            }
+            else if (this.right.isDown) {
+                this._player.setState("walkingright")
+            }
+            else {
+                this._player.setState("turn")
+            }
+        }
 
-        if (this.left.isDown && this.space.isDown) {
-            this._player.setState("runningleft")
-        }
-        else if (this.left.isDown) {
-            this._player.setState("walkingleft")
-        }
-        else if (this.right.isDown && this.space.isDown) {
-            this._player.setState("runningright")
-        }
-        else if (this.right.isDown) {
-            this._player.setState("walkingright")
-        }
-        else {
-            this._player.setState("turn")
-        }
-        
         if (this._score.getGameOverScore() >= 25) {
             this.musicLevel4.stop();
             this.scene.start('GameOverScene', {
@@ -156,10 +157,60 @@ export default class Level4Scene extends Phaser.Scene {
         }
 
         if (this.esc.isDown) {
-            this.musicLevel4.stop();
-            this.scene.restart();
-            this.scene.start('MenuScene')
+            this.handleBack();
         }
+
+
+    }
+
+    public checkGamepadsExists() {
+        const gamepads = navigator.getGamepads();
+
+        if (gamepads[0] != null) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public checkGamepads() {
+        const gamepads = navigator.getGamepads();
+
+        for (const gamepad of gamepads) {
+            if (gamepad) {
+                if (gamepad.buttons[1].pressed) {
+                    this.handleBack();
+                } else if (gamepad.buttons[14].pressed) {
+                    //left
+                    if (gamepad.buttons[0].pressed) {
+                        this._player.setState("runningleft")
+                    }
+                    else {
+                        this._player.setState("walkingleft")
+                    }
+
+                } else if (gamepad.buttons[15].pressed) {
+                    //right
+                    if (gamepad.buttons[0].pressed) {
+                        this._player.setState("runningright")
+                    }
+                    else {
+                        this._player.setState("walkingright")
+                    }
+
+
+                } else {
+                    this._player.setState("turn")
+
+                }
+            }
+        }
+    }
+
+    public handleBack(){
+        this.musicLevel4.stop();
+        this.scene.restart();
+        this.scene.start('MenuScene')
     }
 
 }

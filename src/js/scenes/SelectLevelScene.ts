@@ -38,7 +38,6 @@ export default class SelectLevelScene extends Phaser.Scene {
   constructor() {
     super({ key: "SelectLevelScene" });
     this.blockPosition = 1;
-
   }
 
   init(data) {
@@ -84,12 +83,7 @@ export default class SelectLevelScene extends Phaser.Scene {
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start('SelectCharacterScene')
+      this.handleBack();
     }, this);
 
     this.level1 = this.add.image(230, 260, 'level1')
@@ -101,238 +95,278 @@ export default class SelectLevelScene extends Phaser.Scene {
 
     this.level1.setInteractive();
     this.level1.on('pointerdown', function () {
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start("Level1Scene", {
-        playerName: this.playerName,
-        leaderboard: this.leaderboard,
-        musicLevel1: this.musicLevel1,
-        musicMenu: this.musicMenu,
-        errorSFX: this.errorSFX
-      });
+      this.handleSelectLevel1();
     }, this);
 
     this.level2.setInteractive();
     this.level2.on('pointerdown', function () {
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start("Level2Scene", {
-        playerName: this.playerName,
-        leaderboard: this.leaderboard,
-        musicLevel2: this.musicLevel2,
-        musicMenu: this.musicMenu,
-        errorSFX: this.errorSFX
-      });
+      this.handleSelectLevel2();
     }, this);
 
     this.level3.setInteractive();
     this.level3.on('pointerdown', function () {
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start("Level3Scene", {
-        playerName: this.playerName,
-        leaderboard: this.leaderboard,
-        musicLevel3: this.musicLevel3,
-        musicMenu: this.musicMenu,
-        errorSFX: this.errorSFX
-      });
+      this.handleSelectLevel3();
     }, this);
 
     this.level4.setInteractive();
     this.level4.on('pointerdown', function () {
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start("Level4Scene", {
-        playerName: this.playerName,
-        leaderboard: this.leaderboard,
-        musicLevel4: this.musicLevel4,
-        musicMenu: this.musicMenu,
-        errorSFX: this.errorSFX
-      });
+      this.handleSelectLevel4();
     }, this);
 
 
   }
 
   public update() {
+    this.checkGamepads();
 
     if (this.right.isDown && this.blockPosition == 1) {
-      this.block.setX(520);
-      this.blockPosition = 2;
-      this.aux=0
+      this.handleBlockPosition2();
     }
     else if (this.right.isDown && this.blockPosition == 3) {
-      this.block.setX(520);
-      this.blockPosition = 4;
-      this.aux=0
+      this.handleBlockPosition4();
     }
     else if (this.left.isDown && this.blockPosition == 2) {
-      this.block.setX(230);
-      this.blockPosition = 1;
-      this.aux=0
+      this.handleBlockPosition1();
     }
     else if (this.left.isDown && this.blockPosition == 4) {
-      this.block.setX(230);
-      this.blockPosition = 3;
-      this.aux=0
+      this.handleBlockPosition3();
     }
     else if (this.up.isDown && this.blockPosition == 3) {
-      this.block.setY(260);
-      this.blockPosition = 1;
-      this.aux=0
+      this.handleBlockPosition1();
     }
     else if (this.up.isDown && this.blockPosition == 4) {
-      this.block.setY(260);
-      this.blockPosition = 2;
-      this.aux=0
+      this.handleBlockPosition2();
     }
     else if (this.down.isDown && this.blockPosition == 1) {
-      this.block.setY(440);
-      this.blockPosition = 3;
-      this.aux=0
+      this.handleBlockPosition3()
     }
     else if (this.down.isDown && this.blockPosition == 2) {
-      this.block.setY(440);
-      this.blockPosition = 4;
-      this.aux=0
+      this.handleBlockPosition4();
     }
 
     if (this.enter.isDown) {
-      if (this.blockPosition == 1) {
-        this.previewLevel1.stop();
-        this.previewLevel2.stop();
-        this.previewLevel3.stop();
-        this.previewLevel4.stop();
-        this.scene.stop("SelectLevelScene")
-        this.scene.start("Level1Scene", {
-          playerName: this.playerName,
-          leaderboard: this.leaderboard,
-          musicLevel1: this.musicLevel1,
-          musicMenu: this.musicMenu,
-          errorSFX: this.errorSFX
-        });
-      }
-      else if (this.blockPosition == 2) {
-        this.previewLevel1.stop();
-        this.previewLevel2.stop();
-        this.previewLevel3.stop();
-        this.previewLevel4.stop();
-        this.scene.stop("SelectLevelScene")
-        this.scene.start("Level2Scene", {
-          playerName: this.playerName,
-          leaderboard: this.leaderboard,
-          musicLevel2: this.musicLevel2,
-          musicMenu: this.musicMenu,
-          errorSFX: this.errorSFX
-        });
-      }
-      else if (this.blockPosition == 3) {
-        this.previewLevel1.stop();
-        this.previewLevel2.stop();
-        this.previewLevel3.stop();
-        this.previewLevel4.stop();
-        this.scene.stop("SelectLevelScene")
-        this.scene.start("Level3Scene", {
-          playerName: this.playerName,
-          leaderboard: this.leaderboard,
-          musicLevel3: this.musicLevel3,
-          musicMenu: this.musicMenu,
-          errorSFX: this.errorSFX
-        });
-      }
-      else if (this.blockPosition == 4) {
-        this.previewLevel1.stop();
-        this.previewLevel2.stop();
-        this.previewLevel3.stop();
-        this.previewLevel4.stop();
-        this.scene.stop("SelectLevelScene")
-        this.scene.start("Level4Scene", {
-          playerName: this.playerName,
-          leaderboard: this.leaderboard,
-          musicLevel4: this.musicLevel4,
-          musicMenu: this.musicMenu,
-          errorSFX: this.errorSFX
-        });
-      }
+      this.handleEnter();
     }
 
-    if (this.esc.isDown){
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop();
-      this.scene.stop("SelectLevelScene")
-      this.scene.start('SelectCharacterScene')
+    if (this.esc.isDown) {
+      this.handleBack();
     }
 
 
     if (this.blockPosition == 1) {
       this.handlePreviewLevel1();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop()
     }
 
     if (this.blockPosition == 2) {
       this.handlePreviewLevel2();
-      this.previewLevel1.stop();
-      this.previewLevel3.stop();
-      this.previewLevel4.stop()
     }
 
     if (this.blockPosition == 3) {
       this.handlePreviewLevel3();
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel4.stop()
     }
 
     if (this.blockPosition == 4) {
       this.handlePreviewLevel4();
-      this.previewLevel1.stop();
-      this.previewLevel2.stop();
-      this.previewLevel3.stop()
     }
 
   }
 
-  handlePreviewLevel1(){
+  public handlePreviewLevel1() {
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
     if (this.aux == 0) {
       this.previewLevel1.play();
     }
     this.aux = 1;
   }
 
-  handlePreviewLevel2(){
+  public handlePreviewLevel2() {
+    this.previewLevel1.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
     if (this.aux == 0) {
       this.previewLevel2.play();
     }
     this.aux = 1;
   }
 
-  handlePreviewLevel3(){
+  public handlePreviewLevel3() {
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel4.stop();
     if (this.aux == 0) {
       this.previewLevel3.play();
     }
     this.aux = 1;
   }
 
-  handlePreviewLevel4(){
+  public handlePreviewLevel4() {
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
     if (this.aux == 0) {
       this.previewLevel4.play();
     }
     this.aux = 1;
+  }
+
+  public checkGamepads() {
+    const gamepads = navigator.getGamepads();
+
+    for (const gamepad of gamepads) {
+      if (gamepad) {
+        if (gamepad.buttons[1].pressed) {
+          this.time.addEvent({ delay: 200, callback: this.handleBack, callbackScope: this, loop: false });
+        } else if (gamepad.buttons[14].pressed) {
+          //left
+          if (this.blockPosition == 2) {
+            this.handleBlockPosition1()
+          }
+          else if (this.blockPosition == 4) {
+            this.handleBlockPosition3();
+          }
+        } else if (gamepad.buttons[15].pressed) {
+          //right
+          if (this.blockPosition == 1) {
+            this.handleBlockPosition2();
+          }
+          else if (this.blockPosition == 3) {
+            this.handleBlockPosition4();
+          }
+        } else if (gamepad.buttons[13].pressed) {
+          //down
+          if (this.blockPosition == 1) {
+            this.handleBlockPosition3();
+          }
+          else if (this.blockPosition == 2) {
+            this.handleBlockPosition4();
+          }
+        } else if (gamepad.buttons[12].pressed) {
+          //up
+          if (this.blockPosition == 3) {
+            this.handleBlockPosition1();
+          }
+          else if (this.blockPosition == 4) {
+            this.handleBlockPosition2();
+          }
+        } else if (gamepad.buttons[0].pressed) {
+          //x (enter)
+          this.time.addEvent({ delay: 200, callback: this.handleEnter, callbackScope: this, loop: false });
+        }
+      }
+    }
+  }
+
+  public handleEnter(){
+    if (this.blockPosition == 1) {
+      this.handleSelectLevel1();
+    }
+    else if (this.blockPosition == 2) {
+      this.handleSelectLevel2();
+    }
+    else if (this.blockPosition == 3) {
+      this.handleSelectLevel3();
+    }
+    else if (this.blockPosition == 4) {
+      this.handleSelectLevel4();
+    }
+  }
+
+  public handleBack(){
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
+    this.scene.stop("SelectLevelScene")
+    this.scene.start('SelectCharacterScene')
+  }
+
+  public handleSelectLevel1(){
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
+    this.scene.stop("SelectLevelScene")
+    this.scene.start("Level1Scene", {
+      playerName: this.playerName,
+      leaderboard: this.leaderboard,
+      musicLevel1: this.musicLevel1,
+      musicMenu: this.musicMenu,
+      errorSFX: this.errorSFX
+    });
+  }
+
+  public handleSelectLevel2(){
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
+    this.scene.stop("SelectLevelScene")
+    this.scene.start("Level2Scene", {
+      playerName: this.playerName,
+      leaderboard: this.leaderboard,
+      musicLevel2: this.musicLevel2,
+      musicMenu: this.musicMenu,
+      errorSFX: this.errorSFX
+    });
+  }
+
+  public handleSelectLevel3(){
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
+    this.scene.stop("SelectLevelScene")
+    this.scene.start("Level3Scene", {
+      playerName: this.playerName,
+      leaderboard: this.leaderboard,
+      musicLevel3: this.musicLevel3,
+      musicMenu: this.musicMenu,
+      errorSFX: this.errorSFX
+    });
+  }
+
+  public handleSelectLevel4(){
+    this.previewLevel1.stop();
+    this.previewLevel2.stop();
+    this.previewLevel3.stop();
+    this.previewLevel4.stop();
+    this.scene.stop("SelectLevelScene")
+    this.scene.start("Level4Scene", {
+      playerName: this.playerName,
+      leaderboard: this.leaderboard,
+      musicLevel4: this.musicLevel4,
+      musicMenu: this.musicMenu,
+      errorSFX: this.errorSFX
+    });
+  }
+
+  public handleBlockPosition1(){
+    this.block.setX(230);
+    this.block.setY(260);
+    this.blockPosition = 1;
+    this.aux = 0
+  }
+
+  public handleBlockPosition2(){
+    this.block.setX(520);
+    this.block.setY(260);
+    this.blockPosition = 2;
+    this.aux = 0
+  }
+
+  public handleBlockPosition3(){
+    this.block.setX(230);
+    this.block.setY(440);
+    this.blockPosition = 3;
+    this.aux = 0
+  }
+
+  public handleBlockPosition4(){
+    this.block.setX(520);
+    this.block.setY(440);
+    this.blockPosition = 4;
+    this.aux = 0
   }
 }

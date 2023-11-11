@@ -2,19 +2,6 @@ import WebFontFile from "../inputs/WebfontFile";
 import { LeaderBoard } from 'phaser3-rex-plugins/plugins/firebase-components'
 
 
-declare const firebase: any
-var firebaseConfig = {
-  apiKey: process.env.API_KEY as string,
-  authDomain: process.env.AUTH_DOMAIN as string,
-  projectId: process.env.PROJECT_ID as string,
-  storageBucket: process.env.STORAGE_BUCKET as string,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID as string,
-  appId: process.env.APP_ID as string
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
-export {firebase}
-
 export default class MenuScene extends Phaser.Scene {
 
     private leaderboard: any
@@ -33,11 +20,11 @@ export default class MenuScene extends Phaser.Scene {
     up: Phaser.Input.Keyboard.Key;
     down: Phaser.Input.Keyboard.Key;
     enter: Phaser.Input.Keyboard.Key;
-    
 
     private selectionBox!: Phaser.GameObjects.Image
 
     private blockPosition: number
+
 
     constructor() {
         super({ key: "MenuScene" });
@@ -68,7 +55,6 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     public create() {
-        console.log("projectId: ",process.env.PROJECT_ID)
 
         this.blockPosition = 1;
 
@@ -92,52 +78,28 @@ export default class MenuScene extends Phaser.Scene {
         this.add.text(400, 320, `TUTORIAL`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         tutorialButton.setInteractive();
         tutorialButton.on('pointerdown', function () {
-            this.musicMenu.stop();
-            this.scene.start('TutorialScene', {
-                musicMenu: this.musicMenu
-            })
+            this.handleTutorial();
         }, this);
 
         var startButton = this.add.image(400, 385, 'startButton');
         this.add.text(400, 385, `INICIAR`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         startButton.setInteractive();
         startButton.on('pointerdown', function () {
-            this.musicMenu.stop();
-            this.scene.stop("MenuScene")
-            this.scene.start('SelectCharacterScene', {
-                musicMenu: this.musicMenu,
-                leaderboard: this.leaderboard,
-                musicLevel1: this.musicLevel1,
-                musicLevel2: this.musicLevel2,
-                musicLevel3: this.musicLevel3,
-                musicLevel4: this.musicLevel4,
-                previewLevel1: this.previewLevel1,
-                previewLevel2: this.previewLevel2,
-                previewLevel3: this.previewLevel3,
-                previewLevel4: this.previewLevel4,
-                errorSFX: this.errorSFX
-            })
+            this.handleStart();
         }, this);
 
         var scoreButton = this.add.image(400, 450, 'scoreButton');
         this.add.text(400, 450, `PLACAR`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         scoreButton.setInteractive();
         scoreButton.on('pointerdown', function () {
-            this.musicMenu.stop();
-            this.scene.start('ScoreBoardScene', {
-                leaderboard: this.leaderboard,
-                musicMenu: this.musicMenu
-            })
+            this.handleScoreBoard();
         }, this);
 
         var creditsButton = this.add.image(400, 515, 'creditsButton');
         this.add.text(400, 515, `CREDITOS`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         creditsButton.setInteractive();
         creditsButton.on('pointerdown', function () {
-            this.musicMenu.stop();
-            this.scene.start('CreditsScene', {
-                musicMenu: this.musicMenu
-            })
+            this.handleCredits();
         }, this);
 
         this.add.text(580, 570, `Developed by Melissa`, { fontFamily: '"Press Start 2P"', fontSize: '10px', color: '#000000' });
@@ -145,107 +107,154 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     public update() {
-        
-        
+        this.checkGamepads();
+
         if (this.down.isDown && this.blockPosition == 4) {
-            this.selectionBox.setY(320);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition1, callbackScope: this, loop: false});
-            
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition1, callbackScope: this, loop: false });
         }
         else if (this.down.isDown && this.blockPosition == 3) {
-            this.selectionBox.setY(515);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition4, callbackScope: this, loop: false});
-            
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition4, callbackScope: this, loop: false });
         }
         else if (this.down.isDown && this.blockPosition == 2) {
-            this.selectionBox.setY(450);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition3, callbackScope: this, loop: false});
-
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition3, callbackScope: this, loop: false });
         }
         else if (this.down.isDown && this.blockPosition == 1) {
-            this.selectionBox.setY(385);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition2, callbackScope: this, loop: false});
-
-        } 
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition2, callbackScope: this, loop: false });
+        }
         else if (this.up.isDown && this.blockPosition == 1) {
-            this.selectionBox.setY(515);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition4, callbackScope: this, loop: false});
-
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition4, callbackScope: this, loop: false });
         }
         else if (this.up.isDown && this.blockPosition == 2) {
-            this.selectionBox.setY(320);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition1, callbackScope: this, loop: false});
-
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition1, callbackScope: this, loop: false });
         }
         else if (this.up.isDown && this.blockPosition == 3) {
-            this.selectionBox.setY(385);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition2, callbackScope: this, loop: false});
-
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition2, callbackScope: this, loop: false });
         }
         else if (this.up.isDown && this.blockPosition == 4) {
-            this.selectionBox.setY(450);
-            this.time.addEvent({delay:200, callback: this.setBlockPosition3, callbackScope: this, loop: false});
-
+            this.time.addEvent({ delay: 200, callback: this.setBlockPosition3, callbackScope: this, loop: false });
         }
-        
+
 
         if (this.enter.isDown) {
-            if (this.blockPosition == 1) {
-                this.musicMenu.stop();
-                this.blockPosition = 1
-                this.scene.start('TutorialScene', {
-                    musicMenu: this.musicMenu
-                })
-            }
-            else if (this.blockPosition == 2) {
-                this.musicMenu.stop();
-                this.blockPosition = 1
-                this.scene.stop("MenuScene")
-                this.scene.start('SelectCharacterScene', {
-                    musicMenu: this.musicMenu,
-                    leaderboard: this.leaderboard,
-                    musicLevel1: this.musicLevel1,
-                    musicLevel2: this.musicLevel2,
-                    musicLevel3: this.musicLevel3,
-                    musicLevel4: this.musicLevel4,
-                    previewLevel1: this.previewLevel1,
-                    previewLevel2: this.previewLevel2,
-                    previewLevel3: this.previewLevel3,
-                    previewLevel4: this.previewLevel4,
-                    errorSFX: this.errorSFX
-                })
-            }
-            else if (this.blockPosition == 3) {
-                this.musicMenu.stop();
-                this.blockPosition = 1
-                this.scene.start('ScoreBoardScene', {
-                    leaderboard: this.leaderboard,
-                    musicMenu: this.musicMenu
-                })
-            }
-            else if (this.blockPosition == 4) {
-                this.musicMenu.stop();
-                this.blockPosition = 1
-                this.scene.start('CreditsScene', {
-                    musicMenu: this.musicMenu
-                })
-            }
+            this.handleEnter();
         }
+
     }
-    public setBlockPosition1(){
+
+    public setBlockPosition1() {
+        this.selectionBox.setY(320);
         this.blockPosition = 1;
     }
 
-    public setBlockPosition2(){
+    public setBlockPosition2() {
+        this.selectionBox.setY(385);
         this.blockPosition = 2;
     }
 
-    public setBlockPosition3(){
+    public setBlockPosition3() {
+        this.selectionBox.setY(450);
         this.blockPosition = 3;
     }
 
-    public setBlockPosition4(){
+    public setBlockPosition4() {
+        this.selectionBox.setY(515);
         this.blockPosition = 4;
     }
 
+    public checkGamepads() {
+        const gamepads = navigator.getGamepads();
+
+        for (const gamepad of gamepads) {
+            if (gamepad) {
+                if (gamepad.buttons[0].pressed) {
+                    this.time.addEvent({ delay: 200, callback: this.handleEnter, callbackScope: this, loop: false });
+                } else if (gamepad.buttons[13].pressed) {
+                    if (this.blockPosition == 4) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition1, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 3) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition4, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 2) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition3, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 1) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition2, callbackScope: this, loop: false });
+                    }
+                } else if (gamepad.buttons[12].pressed) {
+                    if (this.blockPosition == 1) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition4, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 2) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition1, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 3) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition2, callbackScope: this, loop: false });
+                    }
+                    else if (this.blockPosition == 4) {
+                        this.time.addEvent({ delay: 200, callback: this.setBlockPosition3, callbackScope: this, loop: false });
+                    }
+                }
+            }
+        }
+    }
+
+    public handleEnter() {
+        if (this.blockPosition == 1) {
+            this.handleTutorial();
+        }
+        else if (this.blockPosition == 2) {
+            this.handleStart();
+        }
+        else if (this.blockPosition == 3) {
+            this.handleScoreBoard();
+        }
+        else if (this.blockPosition == 4) {
+            this.handleCredits();
+        }
+    }
+
+    public handleTutorial(){
+        this.musicMenu.stop();
+        this.blockPosition = 1
+        this.scene.start('TutorialScene', {
+            musicMenu: this.musicMenu
+        })
+    }
+
+    public handleStart(){
+        this.musicMenu.stop();
+        this.blockPosition = 1
+        this.scene.stop("MenuScene")
+        this.scene.start('SelectCharacterScene', {
+            musicMenu: this.musicMenu,
+            leaderboard: this.leaderboard,
+            musicLevel1: this.musicLevel1,
+            musicLevel2: this.musicLevel2,
+            musicLevel3: this.musicLevel3,
+            musicLevel4: this.musicLevel4,
+            previewLevel1: this.previewLevel1,
+            previewLevel2: this.previewLevel2,
+            previewLevel3: this.previewLevel3,
+            previewLevel4: this.previewLevel4,
+            errorSFX: this.errorSFX
+        })
+    }
+
+    public handleScoreBoard(){
+        this.musicMenu.stop();
+        this.blockPosition = 1
+        this.scene.start('ScoreBoardScene', {
+            leaderboard: this.leaderboard,
+            musicMenu: this.musicMenu
+        })
+    }
+
+    public handleCredits(){
+        this.musicMenu.stop();
+        this.blockPosition = 1
+        this.scene.start('CreditsScene', {
+            musicMenu: this.musicMenu
+        })
+    }
 }

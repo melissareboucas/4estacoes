@@ -44,8 +44,7 @@ export default class TutorialScene extends Phaser.Scene {
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
     backButton.setInteractive();
     backButton.on('pointerdown', function () {
-      this.musicMenu.stop();
-      this.scene.start('MenuScene')
+      this.handleBack();
     }, this);
 
     this.add.image(400, 350, 'largeWhiteBox')
@@ -92,37 +91,63 @@ export default class TutorialScene extends Phaser.Scene {
 
     this.downTriangle.setInteractive();
     this.downTriangle.on('pointerdown', function () {
-      this.upTriangle.setVisible(true)
-      this.downTriangle.setVisible(false)
-      this.description.setText(this.textTutorialpart2)
+      this.handleDownArrow();
     }, this);
 
     this.upTriangle.setInteractive();
     this.upTriangle.on('pointerdown', function () {
-      this.upTriangle.setVisible(false)
-      this.downTriangle.setVisible(true)
-      this.description.setText(this.textTutorialpart1)
+      this.handleUpArrow();
     }, this);
 
   }
 
   public update() {
+    this.checkGamepads();
+
     if (this.esc.isDown) {
-      this.musicMenu.stop();
-      this.scene.start('MenuScene')
+      this.handleBack();
     }
 
     if (this.up.isDown) {
-      this.upTriangle.setVisible(false)
-      this.downTriangle.setVisible(true)
-      this.description.setText(this.textTutorialpart1)
+      this.handleUpArrow();
     }
 
     if (this.down.isDown) {
-      this.upTriangle.setVisible(true)
-      this.downTriangle.setVisible(false)
-      this.description.setText(this.textTutorialpart2)
+      this.handleDownArrow();
     }
+  }
+
+  public checkGamepads() {
+    const gamepads = navigator.getGamepads();
+
+    for (const gamepad of gamepads) {
+      if (gamepad) {
+        if (gamepad.buttons[13].pressed) {
+          this.handleDownArrow();
+        } else if (gamepad.buttons[12].pressed) {
+          this.handleUpArrow()
+        } else if (gamepad.buttons[1].pressed) {
+          this.handleBack();
+        }
+      }
+    }
+  }
+
+  public handleBack(){
+    this.musicMenu.stop();
+    this.scene.start('MenuScene')
+  }
+
+  public handleDownArrow(){
+    this.upTriangle.setVisible(true)
+    this.downTriangle.setVisible(false)
+    this.description.setText(this.textTutorialpart2)
+  }
+
+  public handleUpArrow(){
+    this.upTriangle.setVisible(false)
+    this.downTriangle.setVisible(true)
+    this.description.setText(this.textTutorialpart1)
   }
 
 }
