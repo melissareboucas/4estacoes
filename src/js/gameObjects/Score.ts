@@ -1,3 +1,4 @@
+
 export default class Score extends Phaser.GameObjects.Text {
 
     private currentValue: integer;
@@ -14,6 +15,8 @@ export default class Score extends Phaser.GameObjects.Text {
 
         this.currentValue = 0;
         this.countGameOverSore = 0;
+
+
     }
 
     public updateScore(value: integer) {

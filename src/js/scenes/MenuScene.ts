@@ -95,6 +95,8 @@ export default class MenuScene extends Phaser.Scene {
             this.handleScoreBoard();
         }, this);
 
+        //acento agudo
+        this.add.text(383, 510, `´`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5).setDepth(1)
         var creditsButton = this.add.image(400, 515, 'creditsButton');
         this.add.text(400, 515, `CREDITOS`, { fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#000000' }).setOrigin(0.5);
         creditsButton.setInteractive();

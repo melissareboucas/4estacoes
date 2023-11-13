@@ -83,6 +83,7 @@ export default class LoaderScene extends Phaser.Scene {
     this.load.image('titleCredits', '../../assets/images/CREDITOS.png')
     this.load.image('titleGameOver', '../../assets/images/GAME OVER.png')
     this.load.image('titleYourScore', '../../assets/images/SCORE.png')
+    this.load.image('acento', '../../assets/images/acento.png')
 
     //musics
     this.load.audio('musicMenu', '../../assets/audio/musicMenu.mp3'); 

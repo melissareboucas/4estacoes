@@ -29,6 +29,7 @@ export default class CreditsScene extends Phaser.Scene {
 
     this.add.image(400, 300, 'bg_menu');
 
+    this.add.image(330, 65,'acento').setOrigin(0)
     this.add.image(220, 80, 'titleCredits').setOrigin(0)
 
     var backButton = this.add.image(50, 50, 'back').setScale(0.05);
@@ -52,7 +53,7 @@ export default class CreditsScene extends Phaser.Scene {
     - Linguagem Base: TypeScript 
     - GameEngine: Phaser 3
     - Imagens: pikisuperstar on Freepik
-    - Audio: Youtube
+    - Áudio: Youtube
     ------------------------------------------------
     Agradecimentos especiais: Sarah, por me ajudar com os designs ;)
     `
