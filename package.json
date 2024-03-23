@@ -1,7 +1,7 @@
 {
-  "name": "4estacoes",
+  "name": "mousetrap",
   "version": "4.0.0",
-  "description": "4 Estações",
+  "description": "mousetrap",
   "main": "src/js/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/melissareboucas/4estacoes"
+    "url": "https://github.com/melissareboucas/mousetrap"
   },
   "author": "Melissa Viana",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/melissareboucas/4estacoes/issues"
+    "url": "https://github.com/melissareboucas/mousetrap/issues"
   },
   "babel": {
     "presets": [
       "@babel/preset-env"
     ]
   },
-  "homepage": "https://github.com/melissareboucas/4estacoes/blob/main/README.md",
+  "homepage": "https://github.com/melissareboucas/mousetrap/blob/main/README.md",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
